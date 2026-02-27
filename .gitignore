@@ -1,0 +1,16 @@
+# Ongebruikte afbeeldingen
+img_actor.jpg
+All pictures/WvT/
+
+# OS-bestanden
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.swp
+*.swo
+
+# Overig
+*.log
