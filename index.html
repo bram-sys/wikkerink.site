@@ -229,12 +229,30 @@
     .cfo .content { align-self: flex-start; text-align: left; }
 
     .label {
-      display: block; font-family: var(--font-m); font-size: clamp(13px, 1.4vw, 16px);
+      display: flex; flex-direction: column; gap: 1px;
+      font-family: var(--font-m); font-size: clamp(13px, 1.4vw, 16px);
       font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase;
-      margin-bottom: 16px; white-space: nowrap;
+      margin-bottom: 16px;
     }
+    .label span { display: block; }
     .actor .label { color: var(--yellow); }
     .cfo   .label { color: var(--blue); }
+
+    /* Taalwisselaar */
+    .lang-toggle {
+      position: fixed; top: 14px; right: 16px; z-index: 500;
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(26,26,31,0.65); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px; padding: 5px 10px;
+      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.5); cursor: pointer;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      transition: opacity 0.3s;
+    }
+    .lang-toggle .lang-opt { padding: 0 1px; transition: color 0.2s; }
+    .lang-toggle .lang-opt.active { color: var(--yellow); }
+    .lang-toggle .lang-sep { opacity: 0.3; }
+    .lang-toggle:hover { opacity: 0.9; }
 
     .content h2 {
       font-family: var(--font-d); font-weight: 400;
@@ -466,6 +484,25 @@
         mask-image: linear-gradient(to right, black 80%, transparent 100%);
       }
       .nav-buttons::-webkit-scrollbar { display: none; }
+
+      /* Taak 0: sticky nav-balk — blijft zichtbaar bij scrollen */
+      body.actor-active .actor .nav-buttons,
+      body.cfo-active   .cfo  .nav-buttons {
+        position: sticky;
+        top: 0;
+        z-index: 15;
+        padding: 10px 16px 10px;
+        margin: 0 -16px;          /* compenseer content-padding */
+        background: rgba(26,26,31,0.94);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        /* mask override: fade rechts blijft */
+        -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+        mask-image: linear-gradient(to right, black 85%, transparent 100%);
+      }
+      body.cfo-active .cfo .nav-buttons {
+        background: rgba(205,209,196,0.94);
+      }
 
       /* Fix 2: swipe-hint beter leesbaar — pill-achtergrond + hogere opacity */
       .mobile-swipe-hint {
@@ -712,6 +749,27 @@
       color: var(--dark);
     }
 
+    /* GCal agenda-items */
+    .agenda-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      align-items: flex-start;
+    }
+    .agenda-date {
+      font-family: var(--font-m);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      white-space: nowrap;
+      padding-top: 3px;
+      min-width: 96px;
+    }
+    .agenda-body { display: flex; flex-direction: column; gap: 2px; }
+    .agenda-title { font-size: 14px; font-weight: 500; }
+    .agenda-loc { font-size: 12px; opacity: 0.5; }
+
     /* Portretfoto in detail */
     .detail-portrait {
       width: 100%;
@@ -942,15 +1000,17 @@
     }
     .lightbox-close {
       position: absolute;
-      top: 24px;
-      right: 32px;
-      font-family: var(--font-m);
-      font-size: 14px;
+      top: 20px;
+      right: 28px;
+      font-family: var(--font-d);
+      font-size: 32px;
+      line-height: 1;
       color: rgba(255,255,255,0.6);
       background: none;
       border: none;
       cursor: pointer;
-      letter-spacing: 0.1em;
+      letter-spacing: 0;
+      padding: 0;
     }
     .lightbox-close:hover { color: var(--white); }
 
@@ -1424,6 +1484,13 @@
 <body>
   <h1 class="sr-only">Bram Wikkerink — Acteur &amp; Fractional CFO</h1>
 
+  <!-- Taalwisselaar — altijd zichtbaar rechtsboven -->
+  <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">
+    <span class="lang-opt active" data-lang="nl">NL</span>
+    <span class="lang-sep">|</span>
+    <span class="lang-opt" data-lang="en">EN</span>
+  </button>
+
   <div id="cur-dot"></div>
   <div id="cur-ring"></div>
 
@@ -1432,7 +1499,7 @@
     <!-- Mobiele swipe-hint (neutraal scherm) -->
     <div class="mobile-swipe-hint" aria-hidden="true">
       <span class="swipe-hint-arrow swipe-hint-arrow--left">←</span>
-      <span class="swipe-hint-label">swipe</span>
+      <span class="swipe-hint-label" data-i18n="ui.swipe">swipe</span>
       <span class="swipe-hint-arrow swipe-hint-arrow--right">→</span>
     </div>
 
@@ -1448,38 +1515,40 @@
       <div class="actor-overlay"></div>
       <div class="actor-glow"></div>
       <div class="content">
-        <span class="label">Acteur · Maker · Zanger</span>
-        <h2>Geschoold.<em>Bevlogen.</em></h2>
-        <p class="body">
-          Op het podium, voor de camera en op maat.
-        </p>
+        <span class="label">
+          <span data-i18n="actor.role0">Acteur</span>
+          <span data-i18n="actor.role1">Maker</span>
+          <span data-i18n="actor.role2">Zanger</span>
+        </span>
+        <h2><span data-i18n="actor.h2">Geschoold.</span><em data-i18n="actor.h2em">Bevlogen.</em></h2>
+        <p class="body" data-i18n="actor.body">Op het podium, voor de camera en op maat.</p>
         <div class="nav-buttons">
-          <a href="#acteur-agenda" class="nav-btn" data-panel="actor">Speellijst</a>
-          <a href="#acteur-fotos" class="nav-btn" data-panel="actor">Foto's</a>
-          <a href="#acteur-showreel" class="nav-btn" data-panel="actor">Showreel</a>
-          <a href="#acteur-repertoire" class="nav-btn" data-panel="actor">Repertoire</a>
-          <a href="#acteur-contact" class="nav-btn" data-panel="actor">Contact</a>
+          <a href="#acteur-agenda" class="nav-btn" data-panel="actor" data-i18n="actor.nav0">Speellijst</a>
+          <a href="#acteur-fotos" class="nav-btn" data-panel="actor" data-i18n="actor.nav1">Foto's</a>
+          <a href="#acteur-showreel" class="nav-btn" data-panel="actor" data-i18n="actor.nav2">Showreel</a>
+          <a href="#acteur-repertoire" class="nav-btn" data-panel="actor" data-i18n="actor.nav3">Repertoire</a>
+          <a href="#acteur-contact" class="nav-btn" data-panel="actor" data-i18n="actor.nav4">Contact</a>
         </div>
-        <button class="back-btn actor-back">← Terug</button>
+        <button class="back-btn actor-back" data-i18n="ui.back">← Terug</button>
       </div>
       <section class="detail actor-detail">
         <div class="detail-inner">
 
           <!-- 1. Speellijst (Live — GCal) -->
           <div class="detail-section" id="acteur-agenda">
-            <h2 class="detail-h2">Op de <em>planken.</em></h2>
+            <h2 class="detail-h2"><span data-i18n="actor.s.agenda.h2">Op de</span> <em data-i18n="actor.s.agenda.h2em">planken.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label">Speellijst</span>
+            <span class="detail-label" data-i18n="actor.s.agenda.label">Speellijst</span>
             <div id="gcal-events">
-              <p class="detail-text gcal-loading">Agenda laden…</p>
+              <p class="detail-text gcal-loading" data-i18n="actor.s.agenda.loading">Agenda laden…</p>
             </div>
           </div>
 
           <!-- 2. Foto's -->
           <div class="detail-section" id="acteur-fotos">
-            <h2 class="detail-h2">In <em>beeld.</em></h2>
+            <h2 class="detail-h2"><span data-i18n="actor.s.fotos.h2">In</span> <em data-i18n="actor.s.fotos.h2em">beeld.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label">Foto's</span>
+            <span class="detail-label" data-i18n="actor.s.fotos.label">Foto's</span>
             <div class="photo-carousel">
               <button class="carousel-btn carousel-prev" onclick="cslide(-1)" aria-label="Vorige foto">&#8592;</button>
               <div class="carousel-track" id="carousel-track">
@@ -1498,36 +1567,36 @@
 
           <!-- 3. Showreel + Bio -->
           <div class="detail-section" id="acteur-showreel">
-            <h2 class="detail-h2">Geschoold.<br><em>Bevlogen.</em></h2>
+            <h2 class="detail-h2"><span data-i18n="actor.s.showreel.h2">Geschoold.</span><br><em data-i18n="actor.s.showreel.h2em">Bevlogen.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label">Over mij</span>
+            <span class="detail-label" data-i18n="actor.s.showreel.label">Over mij</span>
             <div class="casting-specs">
-              <span class="spec-key">Lengte</span>
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.height">Lengte</span>
               <div class="spec-tags"><span class="spec-tag">182 cm</span></div>
 
-              <span class="spec-key">Stem</span>
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.voice">Stem</span>
               <div class="spec-tags"><span class="spec-tag">Bariton</span></div>
 
-              <span class="spec-key">Haar</span>
-              <div class="spec-tags"><span class="spec-tag">Donkerblond</span></div>
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.hair">Haar</span>
+              <div class="spec-tags"><span class="spec-tag" data-i18n="actor.s.showreel.spec.hair.val">Donkerblond</span></div>
 
-              <span class="spec-key">Ogen</span>
-              <div class="spec-tags"><span class="spec-tag">Blauw</span></div>
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.eyes">Ogen</span>
+              <div class="spec-tags"><span class="spec-tag" data-i18n="actor.s.showreel.spec.eyes.val">Blauw</span></div>
 
-              <span class="spec-key">Talen</span>
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.lang">Talen</span>
               <div class="spec-tags">
-                <span class="spec-tag">Nederlands</span>
-                <span class="spec-tag">Engels</span>
-                <span class="spec-tag">Duits</span>
+                <span class="spec-tag" data-i18n="actor.s.showreel.spec.lang0">Nederlands</span>
+                <span class="spec-tag" data-i18n="actor.s.showreel.spec.lang1">Engels</span>
+                <span class="spec-tag" data-i18n="actor.s.showreel.spec.lang2">Duits</span>
               </div>
 
-              <span class="spec-key">Instrumenten</span>
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.instr">Instrumenten</span>
               <div class="spec-tags">
                 <span class="spec-tag">Piano</span>
-                <span class="spec-tag">Gitaar</span>
+                <span class="spec-tag" data-i18n="actor.s.showreel.spec.instr1">Gitaar</span>
               </div>
             </div>
-            <p class="detail-text" style="margin-top:20px;">
+            <p class="detail-text" style="margin-top:20px;" data-i18n="actor.s.showreel.bio">
               Fysieke, energieke en expressieve acteur met een sterke podiumaanwezigheid, grote liefde voor muzikaliteit en goed gevoel voor komische timing. Werkt snel, precies en met spelplezier. Gewend om in uiteenlopende stijlen te spelen. Teamspeler, betrouwbaar, altijd gericht op het versterken van het geheel.
             </p>
             <div class="showreel">
@@ -1542,7 +1611,7 @@
 
           <!-- 4. Repertoire (Geweest) -->
           <div class="detail-section" id="acteur-repertoire">
-            <h2 class="detail-h2"><em>Repertoire.</em></h2>
+            <h2 class="detail-h2"><em data-i18n="actor.s.rep.h2em">Repertoire.</em></h2>
             <div class="detail-divider"></div>
             <div class="exp-item">
               <span class="exp-period">2025</span>
@@ -1617,21 +1686,21 @@
 
           <!-- 5. Contact -->
           <div class="detail-section" id="acteur-contact">
-            <h2 class="detail-h2 actor-cta-h2">Samen <em>spelen?</em></h2>
+            <h2 class="detail-h2 actor-cta-h2"><span data-i18n="actor.s.contact.h2">Samen</span> <em data-i18n="actor.s.contact.h2em">spelen?</em></h2>
             <div class="detail-divider"></div>
             <div class="contact-links">
               <a href="https://instagram.com/i_am_not_bram" target="_blank" class="btn" data-ga="contact_instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_actor"><i class="fa-regular fa-envelope"></i> E-mail</a>
-              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> Plan een sessie</a>
-              <a href="Bram_Wikkerink_CV.pdf" download class="btn" data-ga="contact_cv_download"><i class="fa-solid fa-download"></i> Download CV</a>
+              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> <span data-i18n="actor.s.contact.session">Plan een sessie</span></a>
+              <a href="Bram_Wikkerink_CV.pdf" download class="btn" data-ga="contact_cv_download"><i class="fa-solid fa-download"></i> <span data-i18n="actor.s.contact.cv">Download CV</span></a>
             </div>
           </div>
 
           <div class="detail-section" id="acteur-nieuwsbrief">
-            <span class="detail-label">Nieuwsbrief</span>
-            <h2 class="detail-h2">Blijf op de <em>hoogte.</em></h2>
+            <span class="detail-label" data-i18n="actor.s.nl.label">Nieuwsbrief</span>
+            <h2 class="detail-h2"><span data-i18n="actor.s.nl.h2">Blijf op de</span> <em data-i18n="actor.s.nl.h2em">hoogte.</em></h2>
             <div class="detail-divider"></div>
-            <p class="detail-text">Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.</p>
+            <p class="detail-text" data-i18n="actor.s.nl.body">Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.</p>
             <form class="newsletter-form" id="sib-form"
                   action="https://e8aa376b.sibforms.com/serve/MUIFALJs6tTnAIvOztlqswCgIuqlbdDxpvB09nxl7TU_i72AMrTiwu4qo1bvNofmvZiJ-B2hAHTLngsEjH46JJ6MpBKS0ra9a2IZd2v3vO4fEWRpgSeBRQIb31s0G1dR9_HEe5q5BQ376H8LCg-sn3ZhJRRnsvFiZBFhOhVbXTRd0kOySG_S4ZOI7OMrJ_VlfPKe443mWl3PY_GSnA=="
                   method="POST" data-type="subscription">
@@ -1664,85 +1733,83 @@
       <div class="cfo-photo"></div>
       <div class="cfo-overlay"></div>
       <div class="content">
-        <span class="label">Fractional CFO · Deal Advisor</span>
-        <h2>Van data<em>naar sturing.</em></h2>
-        <p class="body">
-          Transities — groei, overnames, herstructurering.<br>
-          9+ jaar ervaring<br>
-          Ex-PwC, ex-VC<br>
-          MSc Economics &amp; MSc Finance.
-        </p>
+        <span class="label">
+          <span data-i18n="cfo.role0">Fractional CFO</span>
+          <span data-i18n="cfo.role1">Deal Advisor</span>
+        </span>
+        <h2><span data-i18n="cfo.h2">Van data</span><em data-i18n="cfo.h2em">naar sturing.</em></h2>
+        <p class="body" data-i18n="cfo.body">Transities — groei, overnames, herstructurering.<br>9+ jaar ervaring<br>Ex-PwC, ex-VC<br>MSc Economics &amp; MSc Finance.</p>
         <div class="nav-buttons">
-          <a href="#cfo-profiel" class="nav-btn" data-panel="cfo">Profiel</a>
-          <a href="#cfo-diensten" class="nav-btn" data-panel="cfo">Diensten</a>
-          <a href="#cfo-aanpak" class="nav-btn" data-panel="cfo">Aanpak</a>
-          <a href="#cfo-ervaring" class="nav-btn" data-panel="cfo">Ervaring</a>
-          <a href="#cfo-contact" class="nav-btn" data-panel="cfo">Contact</a>
+          <a href="#cfo-profiel" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav0">Profiel</a>
+          <a href="#cfo-diensten" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav1">Diensten</a>
+          <a href="#cfo-aanpak" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav2">Aanpak</a>
+          <a href="#cfo-ervaring" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav3">Ervaring</a>
+          <a href="#cfo-contact" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav4">Contact</a>
         </div>
-        <button class="back-btn cfo-back">← Terug</button>
+        <button class="back-btn cfo-back" data-i18n="ui.back">← Terug</button>
       </div>
       <section class="detail cfo-detail">
         <div class="detail-inner">
 
           <!-- 1. Over mij -->
           <div class="detail-section" id="cfo-profiel">
-            <span class="detail-label">Fractional CFO · Deal Advisor</span>
-            <h2 class="detail-h2">Financiële scherpte<br><em>op het juiste moment.</em></h2>
+            <span class="detail-label" data-i18n="cfo.s.profiel.label">Fractional CFO · Deal Advisor</span>
+            <h2 class="detail-h2"><span data-i18n="cfo.s.profiel.h2">Financiële scherpte</span><br><em data-i18n="cfo.s.profiel.h2em">op het juiste moment.</em></h2>
             <div class="detail-divider"></div>
             <img src="img_cfo.jpg" alt="Portretfoto Bram Wikkerink, Fractional CFO" class="detail-portrait" loading="lazy">
-            <p class="detail-text">
+            <p class="detail-text" data-i18n="cfo.s.profiel.p1">
               Niet elke onderneming heeft een fulltime CFO nodig — maar wél iemand die de financiële complexiteit doorziet en vertaalt naar heldere keuzes. Daar kom ik in beeld.
             </p>
-            <p class="detail-text">
+            <p class="detail-text" data-i18n="cfo.s.profiel.p2">
               Met een achtergrond bij PwC Deals en Shaping Impact Group help ik ondernemers bij de momenten die ertoe doen: groei financieren, een overname structureren, of de organisatie klaarstomen voor de volgende fase.
             </p>
           </div>
 
           <!-- 2. Wat ik doe -->
           <div class="detail-section" id="cfo-diensten">
-            <span class="detail-label">Wat ik doe</span>
+            <span class="detail-label" data-i18n="cfo.s.diensten.label">Wat ik doe</span>
             <h2 class="detail-h2">[Placeholder: <em>heading diensten.</em>]</h2>
             <div class="detail-divider"></div>
             <div class="service-grid">
               <div class="service-card">
-                <div class="service-card-title">Fractional CFO</div>
-                <p class="service-card-text">Financieel leiderschap op flexibele basis. Budgettering, forecasting, rapportage en sparring op directieniveau.</p>
+                <div class="service-card-title" data-i18n="cfo.s.diensten.c0.title">Fractional CFO</div>
+                <p class="service-card-text" data-i18n="cfo.s.diensten.c0.text">Financieel leiderschap op flexibele basis. Budgettering, forecasting, rapportage en sparring op directieniveau.</p>
               </div>
               <div class="service-card">
-                <div class="service-card-title">Deal Advisory</div>
-                <p class="service-card-text">Begeleiding bij overnames, fusies en desinvesteringen. Van due diligence tot closing.</p>
+                <div class="service-card-title" data-i18n="cfo.s.diensten.c1.title">Deal Advisory</div>
+                <p class="service-card-text" data-i18n="cfo.s.diensten.c1.text">Begeleiding bij overnames, fusies en desinvesteringen. Van due diligence tot closing.</p>
               </div>
               <div class="service-card">
-                <div class="service-card-title">Groeifinanciering</div>
-                <p class="service-card-text">Business cases bouwen, investeerders aanspreken, financieringsstructuren opzetten.</p>
+                <div class="service-card-title" data-i18n="cfo.s.diensten.c2.title">Groeifinanciering</div>
+                <p class="service-card-text" data-i18n="cfo.s.diensten.c2.text">Business cases bouwen, investeerders aanspreken, financieringsstructuren opzetten.</p>
               </div>
               <div class="service-card">
-                <div class="service-card-title">Stakeholder Management</div>
-                <p class="service-card-text">Een goed geïnformeerde stakeholder is een betrokken stakeholder. Met mijn VC-achtergrond weet ik wat zij nodig hebben.</p>
+                <div class="service-card-title" data-i18n="cfo.s.diensten.c3.title">Stakeholder Management</div>
+                <p class="service-card-text" data-i18n="cfo.s.diensten.c3.text">Een goed geïnformeerde stakeholder is een betrokken stakeholder. Met mijn VC-achtergrond weet ik wat zij nodig hebben.</p>
               </div>
               <div class="service-card">
-                <div class="service-card-title">Herstructurering</div>
-                <p class="service-card-text">Financiële reorganisatie, kostenoptimalisatie en operationele verbeteringen doorvoeren.</p>
+                <div class="service-card-title" data-i18n="cfo.s.diensten.c4.title">Herstructurering</div>
+                <p class="service-card-text" data-i18n="cfo.s.diensten.c4.text">Financiële reorganisatie, kostenoptimalisatie en operationele verbeteringen doorvoeren.</p>
               </div>
               <div class="service-card">
-                <div class="service-card-title">Resultaatmonitoring</div>
-                <p class="service-card-text">Voortgang bijhouden, uitkomsten evalueren, strategie bijsturen.</p>
+                <div class="service-card-title" data-i18n="cfo.s.diensten.c5.title">Resultaatmonitoring</div>
+                <p class="service-card-text" data-i18n="cfo.s.diensten.c5.text">Voortgang bijhouden, uitkomsten evalueren, strategie bijsturen.</p>
               </div>
             </div>
           </div>
 
           <!-- 3. Aanpak -->
           <div class="detail-section" id="cfo-aanpak">
-            <span class="detail-label">Aanpak</span>
+            <span class="detail-label" data-i18n="cfo.s.aanpak.label">Aanpak</span>
             <h2 class="detail-h2">[Placeholder: <em>heading aanpak.</em>]</h2>
             <div class="detail-divider"></div>
-            <p class="detail-text">
+            <p class="detail-text" data-i18n="cfo.s.aanpak.p1">
               Goede financiële beslissingen beginnen niet met een spreadsheet. Ze beginnen met een verhaal dat klopt.
             </p>
-            <p class="detail-text">
+            <p class="detail-text" data-i18n="cfo.s.aanpak.p2">
               Mijn achtergrond als acteur maakt me een betere financiële professional. Niet omdat ik theatraal ben in vergaderzalen — maar omdat ik weet hoe je complexe data vertaalt naar iets waar mensen op kunnen acteren. Een business case die begrepen wordt. Een strategie die gedragen wordt.
             </p>
-            <p class="detail-text">
+            <p class="detail-text" data-i18n="cfo.s.aanpak.p3">
               Ik ben datagedreven en altijd op zoek naar hoe het beter kan. Ik boek snel voortgang — en waar mijn expertise ophoudt, schakel ik in mijn netwerk van specialisten. Zo zet ik brede kennis in zonder de persoonlijke betrokkenheid te verliezen.
             </p>
             <p class="detail-pullquote">[Placeholder pullquote aanpak.]</p>
@@ -1750,34 +1817,34 @@
 
           <!-- 4. Achtergrond -->
           <div class="detail-section" id="cfo-ervaring">
-            <span class="detail-label">Achtergrond</span>
-            <h2 class="detail-h2">Ervaring die <em>telt.</em></h2>
+            <span class="detail-label" data-i18n="cfo.s.ervaring.label">Achtergrond</span>
+            <h2 class="detail-h2"><span data-i18n="cfo.s.ervaring.h2">Ervaring die</span> <em data-i18n="cfo.s.ervaring.h2em">telt.</em></h2>
             <div class="detail-divider"></div>
             <div class="exp-item">
-              <span class="exp-period">Heden</span>
+              <span class="exp-period" data-i18n="cfo.s.ervaring.e0.period">Heden</span>
               <div class="exp-content">
                 <div class="exp-role">Fractional CFO & Deal Advisor</div>
                 <div class="exp-org">Zelfstandig</div>
               </div>
             </div>
             <div class="exp-item">
-              <span class="exp-period">Venture Capital</span>
+              <span class="exp-period" data-i18n="cfo.s.ervaring.e1.period">Venture Capital</span>
               <div class="exp-content">
                 <div class="exp-role">Investment Professional</div>
                 <div class="exp-org">Shaping Impact Group</div>
-                <div class="exp-desc">Impact-startups tot €1M · Due diligence · Coaching van ondernemers</div>
+                <div class="exp-desc" data-i18n="cfo.s.ervaring.e1.desc">Impact-startups tot €1M · Due diligence · Coaching van ondernemers</div>
               </div>
             </div>
             <div class="exp-item">
-              <span class="exp-period">Advisory</span>
+              <span class="exp-period" data-i18n="cfo.s.ervaring.e2.period">Advisory</span>
               <div class="exp-content">
                 <div class="exp-role">Senior Associate Business Restructuring · Trainee</div>
                 <div class="exp-org">PwC Deals</div>
-                <div class="exp-desc">ODD, herstructurering, deal analytics, waarderingen</div>
+                <div class="exp-desc" data-i18n="cfo.s.ervaring.e2.desc">ODD, herstructurering, deal analytics, waarderingen</div>
               </div>
             </div>
             <div class="exp-item">
-              <span class="exp-period">Opleiding</span>
+              <span class="exp-period" data-i18n="cfo.s.ervaring.e3.period">Opleiding</span>
               <div class="exp-content">
                 <div class="exp-role">MSc Economics · MSc Finance · BSc Business Economics</div>
                 <div class="exp-org">Rijksuniversiteit Groningen</div>
@@ -1796,11 +1863,11 @@
 
           <!-- 5. Contact CTA -->
           <div class="detail-section" id="cfo-contact">
-            <h2 class="detail-h2 cfo-cta-h2">Laten we <em>kennismaken.</em></h2>
+            <h2 class="detail-h2 cfo-cta-h2"><span data-i18n="cfo.s.contact.h2">Laten we</span> <em data-i18n="cfo.s.contact.h2em">kennismaken.</em></h2>
             <div class="detail-divider"></div>
             <div class="contact-links cfo-contact-links">
               <a href="https://www.linkedin.com/in/bram-wikkerink-28993566/" target="_blank" class="btn" data-ga="contact_linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> Plan een afspraak</a>
+              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> <span data-i18n="cfo.s.contact.appt">Plan een afspraak</span></a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_cfo"><i class="fa-regular fa-envelope"></i> E-mail</a>
             </div>
           </div>
@@ -1817,19 +1884,59 @@
 
   </div>
 
+  <!-- GCal configuratie — config.js staat in .gitignore, bevat GCAL_KEY + GCAL_CAL_ID -->
+  <!-- Gegenereerd door GitHub Actions uit repo-secrets. Ontbrekend = statische fallback -->
+  <script src="config.js" onerror="/* geen config.js aanwezig, gebruik fallback */"></script>
+
   <!-- Lightbox overlay — moet vóór het script staan zodat getElementById werkt -->
   <div class="lightbox" id="lightbox">
-    <button class="lightbox-close">ESC</button>
+    <button class="lightbox-close" aria-label="Sluiten">&#215;</button>
     <img src="" alt="">
   </div>
 
   <script>
-    /* ── Speellijst — statische fallback (GCal API-integratie volgt later) ── */
-    (function initAgenda() {
+    /* ── Speellijst — GCal (sleutel via config.js, nooit in git) ── */
+    (function initGCal() {
       const container = document.getElementById('gcal-events');
       if (!container) return;
-      container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Nieuwe voorstellingen volgen binnenkort — volg me op <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" style="color:var(--yellow)">Instagram</a> voor de laatste updates.</p>';
+      const key   = window.GCAL_KEY;
+      const calId = window.GCAL_CAL_ID;
+      if (!key || !calId) {
+        container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Nieuwe voorstellingen volgen binnenkort — volg me op <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" style="color:var(--yellow)">Instagram</a> voor de laatste updates.</p>';
+        return;
+      }
+      const now = new Date().toISOString();
+      const url = 'https://www.googleapis.com/calendar/v3/calendars/'
+        + encodeURIComponent(calId)
+        + '/events?key=' + key
+        + '&singleEvents=true&orderBy=startTime'
+        + '&timeMin=' + encodeURIComponent(now)
+        + '&maxResults=8';
+      fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) { renderGCalEvents(data.items, container); })
+        .catch(function() {
+          container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Kan de agenda niet laden. Probeer het later opnieuw.</p>';
+        });
     })();
+
+    function renderGCalEvents(items, container) {
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Geen aankomende voorstellingen gepland.</p>';
+        return;
+      }
+      container.innerHTML = items.map(function(ev) {
+        const start = ev.start.dateTime || ev.start.date;
+        const date  = new Date(start);
+        const label = date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+        return '<div class="agenda-item">'
+          + '<span class="agenda-date">' + label + '</span>'
+          + '<div class="agenda-body">'
+          + '<span class="agenda-title">' + (ev.summary || '') + '</span>'
+          + (ev.location ? '<span class="agenda-loc">' + ev.location + '</span>' : '')
+          + '</div></div>';
+      }).join('');
+    }
 
     /* ── Custom Cursor ── */
     const dot = document.getElementById('cur-dot');
@@ -2133,6 +2240,193 @@
       el.addEventListener('click', function() {
         track('contact_click', { action: this.dataset.ga });
       });
+    });
+
+    /* ── NL / EN taalwisselaar ── */
+    const I18N = {
+      nl: {
+        /* Actor hero */
+        'actor.role0': 'Acteur', 'actor.role1': 'Maker', 'actor.role2': 'Zanger',
+        'actor.h2': 'Geschoold.', 'actor.h2em': 'Bevlogen.',
+        'actor.body': 'Op het podium, voor de camera en op maat.',
+        'actor.nav0': 'Speellijst', 'actor.nav1': "Foto's", 'actor.nav2': 'Showreel',
+        'actor.nav3': 'Repertoire', 'actor.nav4': 'Contact',
+        /* Actor detail — agenda */
+        'actor.s.agenda.h2': 'Op de', 'actor.s.agenda.h2em': 'planken.',
+        'actor.s.agenda.label': 'Speellijst',
+        'actor.s.agenda.loading': 'Agenda laden…',
+        /* Actor detail — foto's */
+        'actor.s.fotos.h2': 'In', 'actor.s.fotos.h2em': 'beeld.',
+        'actor.s.fotos.label': "Foto's",
+        /* Actor detail — showreel/bio */
+        'actor.s.showreel.h2': 'Geschoold.', 'actor.s.showreel.h2em': 'Bevlogen.',
+        'actor.s.showreel.label': 'Over mij',
+        'actor.s.showreel.spec.height': 'Lengte', 'actor.s.showreel.spec.voice': 'Stem',
+        'actor.s.showreel.spec.hair': 'Haar', 'actor.s.showreel.spec.hair.val': 'Donkerblond',
+        'actor.s.showreel.spec.eyes': 'Ogen', 'actor.s.showreel.spec.eyes.val': 'Blauw',
+        'actor.s.showreel.spec.lang': 'Talen',
+        'actor.s.showreel.spec.lang0': 'Nederlands', 'actor.s.showreel.spec.lang1': 'Engels', 'actor.s.showreel.spec.lang2': 'Duits',
+        'actor.s.showreel.spec.instr': 'Instrumenten', 'actor.s.showreel.spec.instr1': 'Gitaar',
+        'actor.s.showreel.bio': 'Fysieke, energieke en expressieve acteur met een sterke podiumaanwezigheid, grote liefde voor muzikaliteit en goed gevoel voor komische timing. Werkt snel, precies en met spelplezier. Gewend om in uiteenlopende stijlen te spelen. Teamspeler, betrouwbaar, altijd gericht op het versterken van het geheel.',
+        /* Actor detail — repertoire */
+        'actor.s.rep.h2em': 'Repertoire.',
+        /* Actor detail — contact */
+        'actor.s.contact.h2': 'Samen', 'actor.s.contact.h2em': 'spelen?',
+        'actor.s.contact.session': 'Plan een sessie', 'actor.s.contact.cv': 'Download CV',
+        /* Actor detail — nieuwsbrief */
+        'actor.s.nl.label': 'Nieuwsbrief',
+        'actor.s.nl.h2': 'Blijf op de', 'actor.s.nl.h2em': 'hoogte.',
+        'actor.s.nl.body': 'Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.',
+        /* CFO hero */
+        'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
+        'cfo.h2': 'Van data', 'cfo.h2em': 'naar sturing.',
+        'cfo.body': 'Transities — groei, overnames, herstructurering.\n9+ jaar ervaring\nEx-PwC, ex-VC\nMSc Economics & MSc Finance.',
+        'cfo.nav0': 'Profiel', 'cfo.nav1': 'Diensten', 'cfo.nav2': 'Aanpak',
+        'cfo.nav3': 'Ervaring', 'cfo.nav4': 'Contact',
+        /* CFO detail — profiel */
+        'cfo.s.profiel.label': 'Fractional CFO · Deal Advisor',
+        'cfo.s.profiel.h2': 'Financiële scherpte', 'cfo.s.profiel.h2em': 'op het juiste moment.',
+        'cfo.s.profiel.p1': 'Niet elke onderneming heeft een fulltime CFO nodig — maar wél iemand die de financiële complexiteit doorziet en vertaalt naar heldere keuzes. Daar kom ik in beeld.',
+        'cfo.s.profiel.p2': 'Met een achtergrond bij PwC Deals en Shaping Impact Group help ik ondernemers bij de momenten die ertoe doen: groei financieren, een overname structureren, of de organisatie klaarstomen voor de volgende fase.',
+        /* CFO detail — diensten */
+        'cfo.s.diensten.label': 'Wat ik doe',
+        'cfo.s.diensten.c0.title': 'Fractional CFO',
+        'cfo.s.diensten.c0.text': 'Financieel leiderschap op flexibele basis. Budgettering, forecasting, rapportage en sparring op directieniveau.',
+        'cfo.s.diensten.c1.title': 'Deal Advisory',
+        'cfo.s.diensten.c1.text': 'Begeleiding bij overnames, fusies en desinvesteringen. Van due diligence tot closing.',
+        'cfo.s.diensten.c2.title': 'Groeifinanciering',
+        'cfo.s.diensten.c2.text': 'Business cases bouwen, investeerders aanspreken, financieringsstructuren opzetten.',
+        'cfo.s.diensten.c3.title': 'Stakeholder Management',
+        'cfo.s.diensten.c3.text': 'Een goed geïnformeerde stakeholder is een betrokken stakeholder. Met mijn VC-achtergrond weet ik wat zij nodig hebben.',
+        'cfo.s.diensten.c4.title': 'Herstructurering',
+        'cfo.s.diensten.c4.text': 'Financiële reorganisatie, kostenoptimalisatie en operationele verbeteringen doorvoeren.',
+        'cfo.s.diensten.c5.title': 'Resultaatmonitoring',
+        'cfo.s.diensten.c5.text': 'Voortgang bijhouden, uitkomsten evalueren, strategie bijsturen.',
+        /* CFO detail — aanpak */
+        'cfo.s.aanpak.label': 'Aanpak',
+        'cfo.s.aanpak.p1': 'Goede financiële beslissingen beginnen niet met een spreadsheet. Ze beginnen met een verhaal dat klopt.',
+        'cfo.s.aanpak.p2': 'Mijn achtergrond als acteur maakt me een betere financiële professional. Niet omdat ik theatraal ben in vergaderzalen — maar omdat ik weet hoe je complexe data vertaalt naar iets waar mensen op kunnen acteren. Een business case die begrepen wordt. Een strategie die gedragen wordt.',
+        'cfo.s.aanpak.p3': 'Ik ben datagedreven en altijd op zoek naar hoe het beter kan. Ik boek snel voortgang — en waar mijn expertise ophoudt, schakel ik in mijn netwerk van specialisten. Zo zet ik brede kennis in zonder de persoonlijke betrokkenheid te verliezen.',
+        /* CFO detail — ervaring */
+        'cfo.s.ervaring.label': 'Achtergrond',
+        'cfo.s.ervaring.h2': 'Ervaring die', 'cfo.s.ervaring.h2em': 'telt.',
+        'cfo.s.ervaring.e0.period': 'Heden',
+        'cfo.s.ervaring.e1.period': 'Venture Capital',
+        'cfo.s.ervaring.e1.desc': 'Impact-startups tot €1M · Due diligence · Coaching van ondernemers',
+        'cfo.s.ervaring.e2.period': 'Advisory',
+        'cfo.s.ervaring.e2.desc': 'ODD, herstructurering, deal analytics, waarderingen',
+        'cfo.s.ervaring.e3.period': 'Opleiding',
+        /* CFO detail — contact */
+        'cfo.s.contact.h2': 'Laten we', 'cfo.s.contact.h2em': 'kennismaken.',
+        'cfo.s.contact.appt': 'Plan een afspraak',
+        /* Gedeelde UI */
+        'ui.back': '← Terug',
+        'ui.swipe': 'swipe',
+      },
+
+      en: {
+        /* Actor hero */
+        'actor.role0': 'Actor', 'actor.role1': 'Creator', 'actor.role2': 'Singer',
+        'actor.h2': 'Trained.', 'actor.h2em': 'Passionate.',
+        'actor.body': 'On stage, on screen, on cue.',
+        'actor.nav0': 'Schedule', 'actor.nav1': 'Photos', 'actor.nav2': 'Showreel',
+        'actor.nav3': 'Repertoire', 'actor.nav4': 'Contact',
+        /* Actor detail — agenda */
+        'actor.s.agenda.h2': 'On', 'actor.s.agenda.h2em': 'stage.',
+        'actor.s.agenda.label': 'Schedule',
+        'actor.s.agenda.loading': 'Loading schedule…',
+        /* Actor detail — foto's */
+        'actor.s.fotos.h2': 'In', 'actor.s.fotos.h2em': 'frame.',
+        'actor.s.fotos.label': 'Photos',
+        /* Actor detail — showreel/bio */
+        'actor.s.showreel.h2': 'Trained.', 'actor.s.showreel.h2em': 'Passionate.',
+        'actor.s.showreel.label': 'About me',
+        'actor.s.showreel.spec.height': 'Height', 'actor.s.showreel.spec.voice': 'Voice',
+        'actor.s.showreel.spec.hair': 'Hair', 'actor.s.showreel.spec.hair.val': 'Dark blonde',
+        'actor.s.showreel.spec.eyes': 'Eyes', 'actor.s.showreel.spec.eyes.val': 'Blue',
+        'actor.s.showreel.spec.lang': 'Languages',
+        'actor.s.showreel.spec.lang0': 'Dutch', 'actor.s.showreel.spec.lang1': 'English', 'actor.s.showreel.spec.lang2': 'German',
+        'actor.s.showreel.spec.instr': 'Instruments', 'actor.s.showreel.spec.instr1': 'Guitar',
+        'actor.s.showreel.bio': 'Physical, energetic and expressive actor with a strong stage presence, a deep love of musicality and a natural sense of comic timing. Works quickly, precisely and with joy. Comfortable across a wide range of styles. Team player, reliable, always focused on strengthening the whole.',
+        /* Actor detail — repertoire */
+        'actor.s.rep.h2em': 'Repertoire.',
+        /* Actor detail — contact */
+        'actor.s.contact.h2': 'Work', 'actor.s.contact.h2em': 'together?',
+        'actor.s.contact.session': 'Book a session', 'actor.s.contact.cv': 'Download CV',
+        /* Actor detail — nieuwsbrief */
+        'actor.s.nl.label': 'Newsletter',
+        'actor.s.nl.h2': 'Stay in', 'actor.s.nl.h2em': 'the loop.',
+        'actor.s.nl.body': 'Updates on new productions, projects and what\'s happening. No spam — unsubscribe anytime.',
+        /* CFO hero */
+        'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
+        'cfo.h2': 'From data', 'cfo.h2em': 'to direction.',
+        'cfo.body': 'Transitions — growth, acquisitions, restructuring.\n9+ years experience\nEx-PwC, ex-VC\nMSc Economics & MSc Finance.',
+        'cfo.nav0': 'Profile', 'cfo.nav1': 'Services', 'cfo.nav2': 'Approach',
+        'cfo.nav3': 'Experience', 'cfo.nav4': 'Contact',
+        /* CFO detail — profiel */
+        'cfo.s.profiel.label': 'Fractional CFO · Deal Advisor',
+        'cfo.s.profiel.h2': 'Financial precision', 'cfo.s.profiel.h2em': 'at the right moment.',
+        'cfo.s.profiel.p1': 'Not every business needs a full-time CFO — but every business needs someone who can navigate financial complexity and translate it into clear decisions. That\'s where I come in.',
+        'cfo.s.profiel.p2': 'With a background at PwC Deals and Shaping Impact Group, I support entrepreneurs at the moments that matter: financing growth, structuring an acquisition, or preparing the organisation for its next phase.',
+        /* CFO detail — diensten */
+        'cfo.s.diensten.label': 'What I do',
+        'cfo.s.diensten.c0.title': 'Fractional CFO',
+        'cfo.s.diensten.c0.text': 'Financial leadership on a flexible basis. Budgeting, forecasting, reporting and board-level sparring.',
+        'cfo.s.diensten.c1.title': 'Deal Advisory',
+        'cfo.s.diensten.c1.text': 'Guidance through acquisitions, mergers and divestments. From due diligence to closing.',
+        'cfo.s.diensten.c2.title': 'Growth Financing',
+        'cfo.s.diensten.c2.text': 'Building business cases, engaging investors, structuring financing arrangements.',
+        'cfo.s.diensten.c3.title': 'Stakeholder Management',
+        'cfo.s.diensten.c3.text': 'A well-informed stakeholder is an engaged stakeholder. My VC background means I know what they need.',
+        'cfo.s.diensten.c4.title': 'Restructuring',
+        'cfo.s.diensten.c4.text': 'Financial reorganisation, cost optimisation and operational improvements.',
+        'cfo.s.diensten.c5.title': 'Performance Monitoring',
+        'cfo.s.diensten.c5.text': 'Tracking progress, evaluating outcomes, adjusting strategy.',
+        /* CFO detail — aanpak */
+        'cfo.s.aanpak.label': 'Approach',
+        'cfo.s.aanpak.p1': 'Good financial decisions don\'t start with a spreadsheet. They start with a story that holds.',
+        'cfo.s.aanpak.p2': 'My background as an actor makes me a better financial professional. Not because I\'m theatrical in boardrooms — but because I know how to translate complex data into something people can act on. A business case that\'s understood. A strategy that gets buy-in.',
+        'cfo.s.aanpak.p3': 'I\'m data-driven and always looking for how things can be improved. I move fast — and where my own expertise ends, I bring in my network of specialists. Broad knowledge without losing personal involvement.',
+        /* CFO detail — ervaring */
+        'cfo.s.ervaring.label': 'Background',
+        'cfo.s.ervaring.h2': 'Experience that', 'cfo.s.ervaring.h2em': 'counts.',
+        'cfo.s.ervaring.e0.period': 'Present',
+        'cfo.s.ervaring.e1.period': 'Venture Capital',
+        'cfo.s.ervaring.e1.desc': 'Impact startups up to €1M · Due diligence · Entrepreneur coaching',
+        'cfo.s.ervaring.e2.period': 'Advisory',
+        'cfo.s.ervaring.e2.desc': 'ODD, restructuring, deal analytics, valuations',
+        'cfo.s.ervaring.e3.period': 'Education',
+        /* CFO detail — contact */
+        'cfo.s.contact.h2': 'Let\'s', 'cfo.s.contact.h2em': 'connect.',
+        'cfo.s.contact.appt': 'Book an appointment',
+        /* Gedeelde UI */
+        'ui.back': '← Back',
+        'ui.swipe': 'swipe',
+      }
+    };
+
+    function setLanguage(lang) {
+      const t = I18N[lang] || I18N.nl;
+      document.documentElement.lang = lang;
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        const key = el.dataset.i18n;
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      document.querySelectorAll('.lang-opt').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      try { localStorage.setItem('lang', lang); } catch(e) {}
+    }
+
+    // Init: vorige taalvoorkeur of standaard NL
+    const _savedLang = (function() {
+      try { return localStorage.getItem('lang'); } catch(e) { return null; }
+    })() || 'nl';
+    setLanguage(_savedLang);
+
+    document.getElementById('lang-toggle').addEventListener('click', function(e) {
+      const btn = e.target.closest('[data-lang]');
+      if (btn) setLanguage(btn.dataset.lang);
     });
 
   </script>
