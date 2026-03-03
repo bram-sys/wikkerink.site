@@ -23,7 +23,7 @@
     "url": "https://wikkerink.me",
     "sameAs": [
       "https://instagram.com/i_am_not_bram",
-      "https://linkedin.com/in/bramwikkerink"
+      "https://www.linkedin.com/in/bram-wikkerink-28993566/"
     ],
     "jobTitle": ["Acteur", "Fractional CFO"],
     "worksFor": { "@type": "Organization", "name": "Zelfstandig" },
@@ -54,10 +54,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet"/>
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
+  <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css"/>
   <style>
+    /* ── Brevo form overrides — neutraliseer witte standaardstijl ── */
+    #sib-container, .sib-form { background: transparent !important; border: none !important; max-width: 100% !important; padding: 0 !important; }
+    .sib-form-message-panel { max-width: 100% !important; border-radius: 2px !important; }
+    #error-message { background-color: rgba(255,77,77,0.15) !important; border-color: rgba(255,77,77,0.4) !important; color: #ff9999 !important; }
+    #success-message { background-color: rgba(232,197,71,0.12) !important; border-color: rgba(232,197,71,0.35) !important; color: var(--yellow) !important; }
+    .sib-form-message-panel__text { color: inherit !important; font-family: var(--font-m) !important; font-size: 13px !important; }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -198,10 +203,10 @@
     .cfo-photo {
       position: absolute; inset: 0;
       background: url('img_cfo.jpg') center 20% / cover no-repeat;
-      opacity: 0.22;
+      opacity: 0.50;
       transition: transform var(--dur) var(--ease), opacity 0.9s ease;
     }
-    body:not(.actor-active):not(.cfo-active) .cfo:hover .cfo-photo { transform: scale(1.03); opacity: 0.38; }
+    body:not(.actor-active):not(.cfo-active) .cfo:hover .cfo-photo { transform: scale(1.03); opacity: 0.65; }
 
     .cfo-overlay {
       position: absolute; inset: 0;
@@ -212,6 +217,7 @@
         rgba(205,209,196,1.00) 100%
       );
       z-index: 1;
+      opacity: 0.25;
       transition: opacity 0.85s ease;
     }
 
@@ -260,7 +266,7 @@
       line-height: 1.65; margin-bottom: 28px; max-width: 320px;
     }
     .actor .body { color: rgba(242,243,239,0.65); }
-    .cfo   .body { color: rgba(48,50,61,0.70); margin-left: auto; }
+    .cfo   .body { color: rgba(48,50,61,0.70); max-width: 420px; }
 
     .btn {
       display: inline-flex; align-items: center; gap: 10px;
@@ -308,8 +314,8 @@
     .actor .credibility-bar { justify-content: flex-start; flex-wrap: wrap; align-items: flex-end; gap: 20px; }
     .cred-specs { width: 100%; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .cfo .credibility-bar { justify-content: flex-start; }
-    /* CFO nav-buttons mogen wrappen in neutral state (5 knoppen te breed voor smal paneel) */
-    body:not(.cfo-active) .cfo .nav-buttons { flex-wrap: wrap; }
+    /* CFO nav-buttons altijd op 1 rij */
+    .cfo .nav-buttons { flex-wrap: nowrap; }
     .cred-item { text-align: left; }
     .cred-num {
       display: block;
@@ -397,12 +403,18 @@
       );
     }
 
+    /* Swipe-hint standaard verborgen (desktop); media query overschrijft dit */
+    .mobile-swipe-hint { display: none; }
+
     /* MOBILE */
     @media (max-width: 700px) {
-      html, body { overflow: auto; cursor: auto; }
-      .split { flex-direction: column; height: auto; }
-      .panel { flex: none !important; height: 100svh; }
-      .content { padding: 40px 32px; max-width: 100%; }
+      html, body { overflow: hidden; cursor: auto; }
+
+      /* Neutraal: horizontaal links/rechts — zoals desktop */
+      .split { flex-direction: row; height: 100svh; }
+      .panel { height: 100svh; }
+
+      .content { padding: 32px 20px; max-width: 100%; }
       .cfo .content { text-align: left; align-self: flex-start; }
       .cfo .body { margin-left: 0; }
       .credibility-bar { text-align: left; }
@@ -410,28 +422,77 @@
       .credibility-bar { opacity: 1; transform: none; }
       .hint { opacity: 1; }
 
-      /* Mobile active states */
+      /* Active panel: scrollt intern (zoals desktop) */
       body.actor-active .actor,
-      body.cfo-active   .cfo {
-        height: auto;
-        min-height: 100svh;
-      }
+      body.cfo-active   .cfo { overflow-y: auto; }
+
+      /* Inactief panel: smalle strip */
       body.actor-active .cfo,
-      body.cfo-active   .actor {
-        height: 60px;
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
+      body.cfo-active   .actor { overflow: hidden; }
+
       body.actor-active .detail-inner,
-      body.cfo-active   .detail-inner {
-        padding: 0 32px 40px;
-      }
+      body.cfo-active   .detail-inner { padding: 0 20px 40px; }
+
       body.actor-active .actor-back,
-      body.cfo-active   .cfo-back {
-        display: inline-flex;
+      body.cfo-active   .cfo-back { display: inline-flex; }
+
+      /* Peek in smalle strip: verticale tekst */
+      .actor-peek, .cfo-peek {
+        writing-mode: vertical-rl;
+        transform: translate(-50%, -50%) rotate(180deg);
       }
+
+      /* Nav-knoppen horizontaal scrollbaar */
+      .nav-buttons {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+        padding-bottom: 4px;
+        -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+        mask-image: linear-gradient(to right, black 80%, transparent 100%);
+      }
+      .nav-buttons::-webkit-scrollbar { display: none; }
+
+      /* Swipe-hint: geanimeerde pijltjes op de splitlijn */
+      .mobile-swipe-hint {
+        display: flex;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        pointer-events: none;
+        transition: opacity 0.4s;
+      }
+      .swipe-hint-label {
+        font-family: var(--font-m);
+        font-size: 9px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(242,243,239,0.4);
+        writing-mode: horizontal-tb;
+      }
+      .swipe-hint-arrow {
+        font-size: 13px;
+        color: rgba(242,243,239,0.3);
+        writing-mode: horizontal-tb;
+      }
+      .swipe-hint-arrow--left  { animation: swipe-hint-l 2.4s ease-in-out infinite; }
+      .swipe-hint-arrow--right { animation: swipe-hint-r 2.4s ease-in-out infinite 0.4s; }
+      @keyframes swipe-hint-l {
+        0%, 100% { opacity: 0.3; transform: translateX(0); }
+        50%       { opacity: 0.85; transform: translateX(-5px); }
+      }
+      @keyframes swipe-hint-r {
+        0%, 100% { opacity: 0.3; transform: translateX(0); }
+        50%       { opacity: 0.85; transform: translateX(5px); }
+      }
+      body.actor-active .mobile-swipe-hint,
+      body.cfo-active   .mobile-swipe-hint { opacity: 0; pointer-events: none; }
     }
 
     /* PEEK — verschijnt in het ingeklapte paneel */
@@ -741,39 +802,9 @@
       overflow: hidden;
       border-radius: 3px;
     }
-    .showreel iframe,
-    .showreel-thumb {
+    .showreel iframe {
       position: absolute; inset: 0;
       width: 100%; height: 100%; border: 0;
-    }
-    .showreel-thumb { cursor: pointer; display: block; }
-    .showreel-thumb img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      transition: transform 0.45s;
-    }
-    .showreel-thumb:hover img { transform: scale(1.04); }
-    .play-btn {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 64px; height: 64px; border-radius: 50%;
-      background: rgba(232,197,71,0.90); color: var(--dark);
-      border: none; cursor: pointer;
-      font-size: 20px; padding-left: 4px;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .2s, transform .2s;
-      pointer-events: none;
-    }
-    .showreel-thumb:hover .play-btn {
-      background: var(--yellow);
-      transform: translate(-50%, -50%) scale(1.14);
-    }
-    .showreel iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
     }
 
     /* Actor-varianten van gedeelde classes */
@@ -798,6 +829,8 @@
       width: 100%;
       aspect-ratio: 3 / 4;
       object-fit: cover;
+      cursor: pointer;
+      touch-action: manipulation;
       cursor: crosshair;
       filter: grayscale(0.1);
       transition: filter 0.3s, transform 0.3s;
@@ -806,6 +839,53 @@
       filter: grayscale(0);
       transform: scale(1.02);
     }
+
+    /* Foto carousel */
+    .photo-carousel { position: relative; margin-top: 16px; }
+    .carousel-track {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .carousel-track::-webkit-scrollbar { display: none; }
+    .carousel-img {
+      flex-shrink: 0;
+      width: calc(33.333% - 5.333px);
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: filter 0.3s;
+      filter: grayscale(0.08);
+    }
+    .carousel-img:hover { filter: grayscale(0); }
+    /* Navigatiepijlen */
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 20;
+      background: rgba(26,26,31,0.85);
+      border: 1px solid rgba(232,197,71,0.55);
+      color: var(--yellow);
+      width: 36px; height: 36px;
+      border-radius: 2px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s, border-color 0.2s;
+      line-height: 1;
+      pointer-events: all;
+    }
+    .carousel-btn:hover {
+      background: rgba(232,197,71,0.22);
+      border-color: var(--yellow);
+    }
+    .carousel-prev { left: 4px; }
+    .carousel-next { right: 4px; }
 
     /* Editorial photo grid (Kunst) */
     .photo-grid-editorial {
@@ -883,6 +963,32 @@
     .stats-block--cfo .cred-num  { font-size: 24px; color: var(--blue); }
     .stats-block--cfo .cred-label { color: rgba(48,50,61,0.55); }
 
+    /* Casting specs grid */
+    .casting-specs {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px 22px;
+      margin-top: 22px;
+      align-items: start;
+    }
+    .spec-key {
+      font-family: var(--font-m);
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(232,197,71,0.45);
+      padding-top: 5px; white-space: nowrap;
+    }
+    .spec-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .spec-tag {
+      font-family: var(--font-m);
+      font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase;
+      color: var(--yellow);
+      border: 1px solid rgba(232,197,71,0.35);
+      padding: 4px 10px;
+      border-radius: 1px;
+    }
+
     /* Actor contact — gecentreerd */
     #acteur-contact { text-align: center; }
     #acteur-contact .contact-links { justify-content: center; }
@@ -893,7 +999,8 @@
       line-height: 0.92 !important;
       margin-bottom: 28px !important;
     }
-    .cfo-contact-links { justify-content: flex-start; }
+    #cfo-contact       { text-align: center; }
+    .cfo-contact-links { justify-content: center; }
     /* Knoppen in CFO contact passend bij de doorzichtige kaart-stijl */
     body.cfo-active #cfo-contact .btn {
       background: var(--dark);
@@ -1071,6 +1178,7 @@
       position: fixed;
       top: 0; bottom: 0; left: 0; right: auto;
       width: calc(5.67 / 6.67 * 100vw); /* = acteur-paneel breedte (~85vw) */
+      pointer-events: none; /* overlay onderschept geen klikken → showreel klikbaar */
     }
     body.actor-active .actor-slides {
       transform: scale(1.10);
@@ -1088,6 +1196,11 @@
     body.actor-active .actor {
       z-index: 3;
     }
+    /* Detail-sections (incl. showreel) expliciet boven de fixed overlay (z-index:1) */
+    body.actor-active .actor-detail {
+      position: relative;
+      z-index: 10;
+    }
     /* Inactieve strip ALTIJD zichtbaar boven de foto van de actieve kant */
     body.actor-active .cfo  { position: relative; z-index: 5; }
     body.cfo-active   .actor { position: relative; z-index: 5; }
@@ -1102,11 +1215,13 @@
     body.cfo-active .cfo-photo {
       transform: scale(1.10);
       opacity: 0.55;
+      filter: blur(14px);
       transition: transform 1.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  filter 0.8s ease,
                   opacity 0.9s ease;
     }
     body.cfo-active .cfo-overlay {
-      opacity: 0.52;
+      opacity: 0.72;
     }
     /* CFO-paneel content boven fixed foto */
     body.cfo-active .cfo {
@@ -1296,14 +1411,21 @@
 
   <div class="split" role="main">
 
+    <!-- Mobiele swipe-hint (neutraal scherm) -->
+    <div class="mobile-swipe-hint" aria-hidden="true">
+      <span class="swipe-hint-arrow swipe-hint-arrow--left">←</span>
+      <span class="swipe-hint-label">swipe</span>
+      <span class="swipe-hint-arrow swipe-hint-arrow--right">→</span>
+    </div>
+
     <!-- ACTOR -->
     <div class="panel actor" aria-label="Acteur portfolio — Bram Wikkerink">
       <div class="actor-slides">
-        <div class="actor-slide" style="background-image:url('All pictures/Shoot Anna/Portretshoot-Bram-37.jpg')"></div>
-        <div class="actor-slide" style="background-image:url('All pictures/Shoot Anna/Portretshoot-Bram-12.jpg')"></div>
-        <div class="actor-slide" style="background-image:url('All pictures/Shoot Anna/Portretshoot-Bram-22.jpg')"></div>
-        <div class="actor-slide" style="background-image:url('All pictures/Shoot Anna/Portretshoot-Bram-38.jpg')"></div>
-        <div class="actor-slide" style="background-image:url('All pictures/Shoot Anna/Portretshoot-Bram-2.jpg')"></div>
+        <div class="actor-slide" style="background-image:url('fotos-carousel/hero-portret-1.jpg')"></div>
+        <div class="actor-slide" style="background-image:url('fotos-carousel/hero-portret-2.jpg')"></div>
+        <div class="actor-slide" style="background-image:url('fotos-carousel/hero-portret-3.jpg')"></div>
+        <div class="actor-slide" style="background-image:url('fotos-carousel/hero-portret-4.jpg')"></div>
+        <div class="actor-slide" style="background-image:url('fotos-carousel/hero-portret-5.jpg')"></div>
       </div>
       <div class="actor-overlay"></div>
       <div class="actor-glow"></div>
@@ -1340,10 +1462,19 @@
             <h2 class="detail-h2">In <em>beeld.</em></h2>
             <div class="detail-divider"></div>
             <span class="detail-label">Foto's</span>
-            <div class="photo-grid">
-              <img src="All pictures/Shoot Anna/Portretshoot-Bram-14.jpg" alt="Bram Wikkerink, acteur — portretfoto 1" class="photo-thumb" loading="lazy">
-              <img src="All pictures/Shoot Anna/Portretshoot-Bram-21.jpg" alt="Bram Wikkerink, acteur — portretfoto 2" class="photo-thumb" loading="lazy">
-              <img src="All pictures/Shoot Anna/Portretshoot-Bram-34.jpg" alt="Bram Wikkerink, acteur — portretfoto 3" class="photo-thumb" loading="lazy">
+            <div class="photo-carousel">
+              <button class="carousel-btn carousel-prev" onclick="cslide(-1)" aria-label="Vorige foto">&#8592;</button>
+              <div class="carousel-track" id="carousel-track">
+                <img src="fotos-carousel/315123.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/622556.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/167685.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/533154.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/304689.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/832446.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/571769.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/822506.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+              </div>
+              <button class="carousel-btn carousel-next" onclick="cslide(1)" aria-label="Volgende foto">&#8594;</button>
             </div>
           </div>
 
@@ -1352,18 +1483,42 @@
             <h2 class="detail-h2">Geschoold.<br><em>Bevlogen.</em></h2>
             <div class="detail-divider"></div>
             <span class="detail-label">Over mij</span>
-            <div class="stats-block">
-              <div class="cred-item"><span class="cred-num">185</span><span class="cred-label">Centimeter</span></div>
-              <div class="cred-item"><span class="cred-num">Bariton</span><span class="cred-label">Stem</span></div>
+            <div class="casting-specs">
+              <span class="spec-key">Lengte</span>
+              <div class="spec-tags"><span class="spec-tag">182 cm</span></div>
+
+              <span class="spec-key">Stem</span>
+              <div class="spec-tags"><span class="spec-tag">Bariton</span></div>
+
+              <span class="spec-key">Haar</span>
+              <div class="spec-tags"><span class="spec-tag">Donkerblond</span></div>
+
+              <span class="spec-key">Ogen</span>
+              <div class="spec-tags"><span class="spec-tag">Blauw</span></div>
+
+              <span class="spec-key">Talen</span>
+              <div class="spec-tags">
+                <span class="spec-tag">Nederlands</span>
+                <span class="spec-tag">Engels</span>
+                <span class="spec-tag">Duits</span>
+              </div>
+
+              <span class="spec-key">Instrumenten</span>
+              <div class="spec-tags">
+                <span class="spec-tag">Piano</span>
+                <span class="spec-tag">Gitaar</span>
+              </div>
             </div>
             <p class="detail-text" style="margin-top:20px;">
               Fysieke, energieke en expressieve acteur met een sterke podiumaanwezigheid, grote liefde voor muzikaliteit en goed gevoel voor komische timing. Werkt snel, precies en met spelplezier. Gewend om in uiteenlopende stijlen te spelen. Teamspeler, betrouwbaar, altijd gericht op het versterken van het geheel.
             </p>
             <div class="showreel">
-              <div class="showreel-thumb" id="showreel-thumb" data-video="DO5Gdjp6F2U">
-                <img src="https://img.youtube.com/vi/DO5Gdjp6F2U/maxresdefault.jpg" alt="Showreel Bram Wikkerink" loading="lazy">
-                <button class="play-btn" aria-label="Showreel afspelen"><i class="fa-solid fa-play"></i></button>
-              </div>
+              <iframe
+                src="https://www.youtube.com/embed/DO5Gdjp6F2U?rel=0&modestbranding=1"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                title="Showreel Bram Wikkerink">
+              </iframe>
             </div>
           </div>
 
@@ -1449,7 +1604,7 @@
             <div class="contact-links">
               <a href="https://instagram.com/i_am_not_bram" target="_blank" class="btn" data-ga="contact_instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_actor"><i class="fa-regular fa-envelope"></i> E-mail</a>
-              <button class="btn" id="calendly-actor"><i class="fa-regular fa-calendar"></i> Plan een sessie</button>
+              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> Plan een sessie</a>
               <a href="Bram_Wikkerink_CV.pdf" download class="btn" data-ga="contact_cv_download"><i class="fa-solid fa-download"></i> Download CV</a>
             </div>
           </div>
@@ -1459,24 +1614,28 @@
             <h2 class="detail-h2">Blijf op de <em>hoogte.</em></h2>
             <div class="detail-divider"></div>
             <p class="detail-text">Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.</p>
-            <form class="newsletter-form" id="newsletter-actor" novalidate>
+            <form class="newsletter-form" id="sib-form"
+                  action="https://e8aa376b.sibforms.com/serve/MUIFALJs6tTnAIvOztlqswCgIuqlbdDxpvB09nxl7TU_i72AMrTiwu4qo1bvNofmvZiJ-B2hAHTLngsEjH46JJ6MpBKS0ra9a2IZd2v3vO4fEWRpgSeBRQIb31s0G1dR9_HEe5q5BQ376H8LCg-sn3ZhJRRnsvFiZBFhOhVbXTRd0kOySG_S4ZOI7OMrJ_VlfPKe443mWl3PY_GSnA=="
+                  method="POST" data-type="subscription">
               <div class="newsletter-row">
                 <input type="email" name="EMAIL" placeholder="jouw@email.nl" required class="newsletter-input" autocomplete="email">
                 <button type="submit" class="btn" data-ga="newsletter_actor"><i class="fa-regular fa-paper-plane"></i> Aanmelden</button>
               </div>
-              <p class="newsletter-note">Geen spam. Uitschrijven kan altijd.</p>
-              <p class="newsletter-success" id="actor-nl-success"><i class="fa-solid fa-check"></i>&nbsp; Aangemeld! Je krijgt zo een bevestigingsmail.</p>
+              <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none" aria-hidden="true">
+              <input type="hidden" name="locale" value="nl">
+              <div id="error-message" class="sib-form-message-panel" style="display:none; margin-top:10px;"></div>
+              <div id="success-message" class="newsletter-success" style="display:none; margin-top:10px;">
+                <i class="fa-solid fa-check"></i>&nbsp; Aangemeld! Controleer je inbox voor de bevestiging.
+              </div>
             </form>
           </div>
 
         </div>
       </section>
       <!-- hint-links vervangen door nav-buttons in .content -->
-      <!-- Peek: zichtbaar als CFO-kant gehovered wordt -->
+      <!-- Peek: zichtbaar als CFO-kant gehovered wordt / actief is -->
       <div class="peek actor-peek">
-        <span>Acteur</span>
-        <span>Maker</span>
-        <span>Zanger</span>
+        <span>Acteur · Maker · Zanger</span>
       </div>
     </div>
 
@@ -1490,7 +1649,10 @@
         <span class="label">Fractional CFO · Deal Advisor</span>
         <h2>Van data<em>naar sturing.</em></h2>
         <p class="body">
-          Transities — groei, overnames, herstructurering.
+          Transities — groei, overnames, herstructurering.<br>
+          9+ jaar ervaring<br>
+          Ex-PwC, ex-VC<br>
+          MSc Economics &amp; MSc Finance.
         </p>
         <div class="nav-buttons">
           <a href="#cfo-profiel" class="nav-btn" data-panel="cfo">Profiel</a>
@@ -1516,11 +1678,6 @@
             <p class="detail-text">
               Met een achtergrond bij PwC Deals en Shaping Impact Group help ik ondernemers bij de momenten die ertoe doen: groei financieren, een overname structureren, of de organisatie klaarstomen voor de volgende fase.
             </p>
-            <div class="stats-block stats-block--cfo">
-              <div class="cred-item"><span class="cred-num">9+</span><span class="cred-label">Jaar ervaring</span></div>
-              <div class="cred-item"><span class="cred-num">Ex-PwC/VC</span><span class="cred-label">Achtergrond</span></div>
-              <div class="cred-item"><span class="cred-num">Econ &amp; Fin</span><span class="cred-label">Studie</span></div>
-            </div>
           </div>
 
           <!-- 2. Wat ik doe -->
@@ -1624,8 +1781,8 @@
             <h2 class="detail-h2 cfo-cta-h2">Laten we <em>kennismaken.</em></h2>
             <div class="detail-divider"></div>
             <div class="contact-links cfo-contact-links">
-              <a href="https://linkedin.com/in/bramwikkerink" target="_blank" class="btn" data-ga="contact_linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-              <button class="btn" id="calendly-cfo"><i class="fa-regular fa-calendar"></i> Plan een afspraak in</button>
+              <a href="https://www.linkedin.com/in/bram-wikkerink-28993566/" target="_blank" class="btn" data-ga="contact_linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> Plan een afspraak</a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_cfo"><i class="fa-regular fa-envelope"></i> E-mail</a>
             </div>
           </div>
@@ -1634,64 +1791,26 @@
         </div>
       </section>
       <!-- hint-links vervangen door nav-buttons in .content -->
-      <!-- Peek: zichtbaar als acteur-kant gehovered wordt -->
+      <!-- Peek: zichtbaar als acteur-kant gehovered wordt / actief is -->
       <div class="peek cfo-peek">
-        <span>Fractional CFO</span>
-        <span>Deal Advisor</span>
+        <span>Fractional CFO · Deal Advisor</span>
       </div>
     </div>
 
   </div>
 
+  <!-- Lightbox overlay — moet vóór het script staan zodat getElementById werkt -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close">ESC</button>
+    <img src="" alt="">
+  </div>
+
   <script>
-    /* ── Google Calendar ── */
-    (async function loadGCal() {
-      const GCAL_API_KEY = 'REDACTED_GCAL_KEY';
-      const GCAL_ID = 'REDACTED_GCAL_ID@group.calendar.google.com';
+    /* ── Speellijst — statische fallback (GCal API-integratie volgt later) ── */
+    (function initAgenda() {
       const container = document.getElementById('gcal-events');
       if (!container) return;
-
-      const now = new Date().toISOString();
-      const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GCAL_ID)}/events?key=${GCAL_API_KEY}&timeMin=${now}&maxResults=8&singleEvents=true&orderBy=startTime`;
-
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-
-        if (!data.items || data.items.length === 0) {
-          container.innerHTML = '<p class="detail-text" style="opacity:0.5;">Geen geplande voorstellingen — volg me op <a href="https://instagram.com/i_am_not_bram" target="_blank" style="color:var(--yellow)">Instagram</a> voor updates.</p>';
-          return;
-        }
-
-        container.innerHTML = data.items.map(ev => {
-          const start = ev.start.dateTime || ev.start.date;
-          const d = new Date(start);
-          const isDateTime = !!ev.start.dateTime;
-          const dag = d.toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' });
-          const tijd = isDateTime ? d.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) : '';
-          const period = dag + (tijd ? '&nbsp;' + tijd : '');
-          const loc = ev.location ? `<div class="exp-org">${ev.location}</div>` : '';
-          let desc = '';
-          if (ev.description) {
-            const d = ev.description.trim();
-            if (d.startsWith('http')) {
-              desc = `<a href="${d}" target="_blank" rel="noopener" class="btn" style="margin-top:10px;font-size:11px;padding:8px 18px;"><i class="fa-solid fa-ticket"></i> Tickets</a>`;
-            } else {
-              desc = `<div class="exp-desc">${d}</div>`;
-            }
-          }
-          return `
-            <div class="exp-item">
-              <span class="exp-period" style="font-size:11px;">${period}</span>
-              <div class="exp-content">
-                <div class="exp-role">${ev.summary}</div>
-                ${loc}${desc}
-              </div>
-            </div>`;
-        }).join('');
-      } catch (e) {
-        container.innerHTML = '<p class="detail-text" style="opacity:0.5;">Agenda tijdelijk niet beschikbaar.</p>';
-      }
+      container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Nieuwe voorstellingen volgen binnenkort — volg me op <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" style="color:var(--yellow)">Instagram</a> voor de laatste updates.</p>';
     })();
 
     /* ── Custom Cursor ── */
@@ -1769,6 +1888,8 @@
         panel.classList.remove('panel-deactivating');
         panel.scrollTop = 0;
         body.classList.remove('actor-active', 'cfo-active', 'on-cfo');
+        // Cursor kan nog over het CFO-paneel hangen — mouseenter vuur niet opnieuw
+        if (cfoPanel.matches(':hover')) body.classList.add('on-cfo');
         history.pushState({ side: 'neutral' }, '', window.location.pathname);
       }, 380);
     }
@@ -1838,6 +1959,45 @@
       if (e.key === 'Escape') deactivate();
     });
 
+    /* ── Mobiele swipe-navigatie ── */
+    (function initSwipe() {
+      var startX = 0, startY = 0;
+      var threshold  = 60;   // min horizontale pixels
+      var maxVert    = 60;   // max verticale drift (om scroll niet te storen)
+      var swipeBlocked = false;
+
+      document.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        // Blokkeer panel-switch als touch begint op een horizontaal scrollbaar element
+        // (bijv. de nav-knoppen balk)
+        swipeBlocked = false;
+        var el = e.target;
+        while (el && el !== document.body) {
+          var ox = getComputedStyle(el).overflowX;
+          if ((ox === 'auto' || ox === 'scroll') && el.scrollWidth > el.clientWidth) {
+            swipeBlocked = true;
+            break;
+          }
+          el = el.parentElement;
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchend', function(e) {
+        if (swipeBlocked) return;
+        var dx = e.changedTouches[0].clientX - startX;
+        var dy = e.changedTouches[0].clientY - startY;
+        // Negeer als swipe te kort of te verticaal
+        if (Math.abs(dx) < threshold || Math.abs(dy) > maxVert) return;
+
+        if (dx < 0) {
+          if (getState() !== 'cfo') activate('cfo');
+        } else {
+          if (getState() !== 'actor') activate('actor');
+        }
+      }, { passive: true });
+    })();
+
     /* ── Deep link bij page load ── */
     const hash = window.location.hash.replace('#', '');
     if (hash === 'actor' || hash === 'cfo') {
@@ -1855,25 +2015,34 @@
     });
 
     /* ── Sectie-navigatie: nav-buttons → activeer panel + scroll ── */
+    function scrollToSection(panelEl, target) {
+      if (!panelEl || !target) return;
+      // Offset relatief aan de scrollbare panel-container
+      const panelRect = panelEl.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      const offset = targetRect.top - panelRect.top + panelEl.scrollTop - 24;
+      panelEl.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+
     document.querySelectorAll('.nav-btn').forEach(link => {
       link.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        const panel = this.dataset.panel;
+        const panelSide = this.dataset.panel;
         const targetId = this.getAttribute('href').replace('#', '');
         const target = document.getElementById(targetId);
         if (!target) return;
 
-        track('nav_click', { section: targetId, panel: panel });
+        track('nav_click', { section: targetId, panel: panelSide });
 
-        if (getState() !== panel) {
-          activate(panel);
-          // Wacht tot panel open is, dan scroll
-          setTimeout(() => {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 750);
+        const panelEl = panelSide === 'actor' ? actorPanel : cfoPanel;
+
+        if (getState() !== panelSide) {
+          activate(panelSide);
+          // Wacht tot panel open is én max-height animatie klaar is, dan scroll
+          setTimeout(() => scrollToSection(panelEl, target), 800);
         } else {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          scrollToSection(panelEl, target);
         }
       });
     });
@@ -1914,83 +2083,14 @@
       }
     });
 
-    /* ── Calendly popup ── */
-    const CALENDLY_URL = 'https://calendly.com/bram-wikkerink/30min';
-    function openCalendly(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      track('calendly_open', { button_id: e.currentTarget.id });
-      if (typeof Calendly !== 'undefined') {
-        Calendly.initPopupWidget({ url: CALENDLY_URL });
-      } else {
-        /* fallback: Calendly widget nog niet geladen → open direct in nieuw tabblad */
-        window.open(CALENDLY_URL, '_blank', 'noopener');
-      }
+    /* ── Foto carousel ── */
+    function cslide(dir) {
+      var t = document.getElementById('carousel-track');
+      if (!t) return;
+      var img = t.querySelector('.carousel-img');
+      if (!img) return;
+      t.scrollLeft += dir * (img.offsetWidth + 8);
     }
-    ['calendly-cfo', 'calendly-actor'].forEach(function(id) {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('click', openCalendly);
-    });
-
-    /* ── Showreel thumbnail → autoplay iframe ── */
-    const showreelThumb = document.getElementById('showreel-thumb');
-    if (showreelThumb) {
-      showreelThumb.addEventListener('click', function() {
-        track('showreel_play');
-        const videoId = this.dataset.video;
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1';
-        iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
-        iframe.allowFullscreen = true;
-        iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;';
-        this.replaceWith(iframe);
-      });
-    }
-
-    /* ── Nieuwsbrief Brevo ──
-       Hoe activeren:
-       1. Ga naar Brevo → Contacts → Forms → maak een nieuw formulier
-       2. Kies "Embedded form", kopieer de action-URL (begint met https://sibforms.com/serve/...)
-       3. Vervang 'JOUW_BREVO_FORM_URL_HIER' hieronder door die URL
-       (Zolang de URL een placeholder is, werkt de UI maar worden aanmeldingen NIET opgeslagen)
-    ── */
-    const BREVO_FORM_URL = 'JOUW_BREVO_FORM_URL_HIER';
-
-    ['newsletter-actor', 'newsletter-cfo'].forEach(function(formId) {
-      const form = document.getElementById(formId);
-      if (!form) return;
-      const successEl = form.querySelector('.newsletter-success');
-      const row = form.querySelector('.newsletter-row');
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const emailInput = form.querySelector('input[name="EMAIL"]');
-        const email = emailInput.value.trim();
-        if (!email || !/\S+@\S+\.\S+/.test(email)) {
-          emailInput.focus();
-          return;
-        }
-
-        track('newsletter_signup', { panel: formId.includes('actor') ? 'actor' : 'cfo' });
-
-        if (BREVO_FORM_URL === 'JOUW_BREVO_FORM_URL_HIER') {
-          /* Placeholder actief: toon success UI maar sla niets op */
-          if (row) row.style.display = 'none';
-          if (successEl) successEl.classList.add('visible');
-          return;
-        }
-
-        /* Verstuur naar Brevo via no-cors (Brevo's sibforms accepteert geen CORS-headers,
-           maar verwerkt de POST wél — optimistisch succes tonen is de standaard aanpak) */
-        const data = new FormData();
-        data.append('EMAIL', email);
-        fetch(BREVO_FORM_URL, { method: 'POST', mode: 'no-cors', body: data })
-          .finally(function() {
-            if (row) row.style.display = 'none';
-            if (successEl) successEl.classList.add('visible');
-          });
-      });
-    });
 
     /* ── Contact link tracking via data-ga attribuut ── */
     document.querySelectorAll('[data-ga]').forEach(function(el) {
@@ -2001,11 +2101,18 @@
 
   </script>
 
-  <!-- Lightbox overlay -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close">ESC</button>
-    <img src="" alt="">
-  </div>
+  <!-- Brevo form JS -->
+  <script>
+    window.REQUIRED_CODE_ERROR_MESSAGE = 'Kies een landcode';
+    window.LOCALE = 'nl';
+    window.EMAIL_INVALID_MESSAGE = 'Ongeldig e-mailadres. Controleer het formaat.';
+    window.REQUIRED_ERROR_MESSAGE = 'Dit veld is verplicht.';
+    window.GENERIC_INVALID_MESSAGE = 'Ongeldig. Controleer het formaat.';
+    window.translation = { common: { selectedList: '{quantity} lijst geselecteerd', selectedLists: '{quantity} lijsten geselecteerd' } };
+    var AUTOHIDE = Boolean(0);
+  </script>
+  <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+
 
 </body>
 </html>
