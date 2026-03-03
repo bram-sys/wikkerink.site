@@ -410,11 +410,15 @@
     @media (max-width: 700px) {
       html, body { overflow: hidden; cursor: auto; }
 
-      /* Neutraal: horizontaal links/rechts — zoals desktop */
+      /* Neutraal: horizontaal links/rechts */
       .split { flex-direction: row; height: 100svh; }
       .panel { height: 100svh; }
 
-      .content { padding: 32px 20px; max-width: 100%; }
+      /* Fix 1: kleinere h2 zodat tekst netjes wraps in 50% kolom */
+      .actor .content h2 { font-size: clamp(30px, 8.5vw, 48px); }
+      .cfo   .content h2 { font-size: clamp(26px, 7vw, 42px); }
+
+      .content { padding: 28px 16px; max-width: 100%; overflow-wrap: break-word; }
       .cfo .content { text-align: left; align-self: flex-start; }
       .cfo .body { margin-left: 0; }
       .credibility-bar { text-align: left; }
@@ -422,13 +426,21 @@
       .credibility-bar { opacity: 1; transform: none; }
       .hint { opacity: 1; }
 
-      /* Active panel: scrollt intern (zoals desktop) */
-      body.actor-active .actor,
-      body.cfo-active   .cfo { overflow-y: auto; }
+      /* Fix 3: active state → column layout, inactief paneel als BOVENSTE balk */
+      body.actor-active .split,
+      body.cfo-active   .split { flex-direction: column; }
 
-      /* Inactief panel: smalle strip */
+      /* Active panel: vult de rest, scrollt intern */
+      body.actor-active .actor,
+      body.cfo-active   .cfo { flex: 1; height: auto; overflow-y: auto; }
+
+      /* Inactief paneel: smalle balk bovenaan */
       body.actor-active .cfo,
-      body.cfo-active   .actor { overflow: hidden; }
+      body.cfo-active   .actor { flex: none; height: 52px; overflow: hidden; }
+
+      /* CFO-balk naar BOVEN als actor actief is */
+      body.actor-active .cfo { order: -1; }
+      /* Actor-balk is al eerste in HTML dus hoeft geen order */
 
       body.actor-active .detail-inner,
       body.cfo-active   .detail-inner { padding: 0 20px 40px; }
@@ -436,10 +448,11 @@
       body.actor-active .actor-back,
       body.cfo-active   .cfo-back { display: inline-flex; }
 
-      /* Peek in smalle strip: verticale tekst */
+      /* Peek in bovenste balk: horizontale tekst (geen vertical-rl) */
       .actor-peek, .cfo-peek {
-        writing-mode: vertical-rl;
-        transform: translate(-50%, -50%) rotate(180deg);
+        writing-mode: horizontal-tb;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
       }
 
       /* Nav-knoppen horizontaal scrollbaar */
@@ -454,7 +467,7 @@
       }
       .nav-buttons::-webkit-scrollbar { display: none; }
 
-      /* Swipe-hint: geanimeerde pijltjes op de splitlijn */
+      /* Fix 2: swipe-hint beter leesbaar — pill-achtergrond + hogere opacity */
       .mobile-swipe-hint {
         display: flex;
         position: fixed;
@@ -462,34 +475,39 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 20;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
         pointer-events: none;
         transition: opacity 0.4s;
+        background: rgba(26,26,31,0.72);
+        border: 1px solid rgba(242,243,239,0.15);
+        border-radius: 20px;
+        padding: 7px 14px;
+        backdrop-filter: blur(6px);
       }
       .swipe-hint-label {
         font-family: var(--font-m);
         font-size: 9px;
         letter-spacing: 0.22em;
         text-transform: uppercase;
-        color: rgba(242,243,239,0.4);
+        color: rgba(242,243,239,0.85);
         writing-mode: horizontal-tb;
       }
       .swipe-hint-arrow {
-        font-size: 13px;
-        color: rgba(242,243,239,0.3);
+        font-size: 12px;
+        color: rgba(232,197,71,0.9);
         writing-mode: horizontal-tb;
       }
       .swipe-hint-arrow--left  { animation: swipe-hint-l 2.4s ease-in-out infinite; }
       .swipe-hint-arrow--right { animation: swipe-hint-r 2.4s ease-in-out infinite 0.4s; }
       @keyframes swipe-hint-l {
-        0%, 100% { opacity: 0.3; transform: translateX(0); }
-        50%       { opacity: 0.85; transform: translateX(-5px); }
+        0%, 100% { opacity: 0.6; transform: translateX(0); }
+        50%       { opacity: 1;   transform: translateX(-4px); }
       }
       @keyframes swipe-hint-r {
-        0%, 100% { opacity: 0.3; transform: translateX(0); }
-        50%       { opacity: 0.85; transform: translateX(5px); }
+        0%, 100% { opacity: 0.6; transform: translateX(0); }
+        50%       { opacity: 1;   transform: translateX(4px); }
       }
       body.actor-active .mobile-swipe-hint,
       body.cfo-active   .mobile-swipe-hint { opacity: 0; pointer-events: none; }
@@ -2053,13 +2071,31 @@
     const thumbs = Array.from(document.querySelectorAll('.photo-thumb'));
     let currentThumb = 0;
 
+    function openLightbox(i) {
+      currentThumb = i;
+      lightboxImg.src = thumbs[i].src;
+      lightboxImg.alt = thumbs[i].alt;
+      lightbox.classList.add('active');
+    }
+
     thumbs.forEach((thumb, i) => {
-      thumb.addEventListener('click', () => {
-        currentThumb = i;
-        lightboxImg.src = thumb.src;
-        lightboxImg.alt = thumb.alt;
-        lightbox.classList.add('active');
-      });
+      // Desktop: click handler
+      thumb.addEventListener('click', () => openLightbox(i));
+
+      // Fix 4: mobiel touch handler — betrouwbaarder in carousel (overflow-x: auto)
+      var tx = 0, ty = 0;
+      thumb.addEventListener('touchstart', function(e) {
+        tx = e.touches[0].clientX;
+        ty = e.touches[0].clientY;
+      }, { passive: true });
+      thumb.addEventListener('touchend', function(e) {
+        var dx = Math.abs(e.changedTouches[0].clientX - tx);
+        var dy = Math.abs(e.changedTouches[0].clientY - ty);
+        if (dx < 12 && dy < 12) {          // tap (geen scroll)
+          e.preventDefault();              // voorkom dubbele click
+          openLightbox(i);
+        }
+      }, { passive: false });
     });
 
     lightbox.addEventListener('click', (e) => {
