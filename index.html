@@ -7,6 +7,15 @@
   <meta name="description" content="Bram Wikkerink: acteur, maker en zanger uit Amsterdam, én fractional CFO en deal advisor voor groeiende bedrijven."/>
   <link rel="canonical" href="https://wikkerink.me/"/>
 
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-GX1NDS08J1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-GX1NDS08J1');
+  </script>
+
   <!-- Open Graph -->
   <meta property="og:type" content="website"/>
   <meta property="og:url" content="https://wikkerink.me/"/>
@@ -766,9 +775,25 @@
       padding-top: 3px;
       min-width: 96px;
     }
-    .agenda-body { display: flex; flex-direction: column; gap: 2px; }
+    .agenda-body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
     .agenda-title { font-size: 14px; font-weight: 500; }
     .agenda-loc { font-size: 12px; opacity: 0.5; }
+    .agenda-tickets {
+      display: inline-block;
+      align-self: center;
+      font-family: var(--font-m);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dark);
+      background: var(--yellow);
+      border-radius: 3px;
+      padding: 4px 9px;
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .agenda-tickets:hover { opacity: 0.85; }
 
     /* Portretfoto in detail */
     .detail-portrait {
@@ -1112,8 +1137,9 @@
     /* ── Nieuwsbrief formulier ── */
     .newsletter-form { margin-top: 20px; }
     .newsletter-row {
-      display: flex; gap: 8px; flex-wrap: wrap;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch;
     }
+    .newsletter-row .btn { align-self: stretch; }
     .newsletter-input {
       flex: 1; min-width: 180px;
       padding: 11px 16px;
@@ -1701,20 +1727,34 @@
             <h2 class="detail-h2"><span data-i18n="actor.s.nl.h2">Blijf op de</span> <em data-i18n="actor.s.nl.h2em">hoogte.</em></h2>
             <div class="detail-divider"></div>
             <p class="detail-text" data-i18n="actor.s.nl.body">Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.</p>
-            <form class="newsletter-form" id="sib-form"
-                  action="https://e8aa376b.sibforms.com/serve/MUIFALJs6tTnAIvOztlqswCgIuqlbdDxpvB09nxl7TU_i72AMrTiwu4qo1bvNofmvZiJ-B2hAHTLngsEjH46JJ6MpBKS0ra9a2IZd2v3vO4fEWRpgSeBRQIb31s0G1dR9_HEe5q5BQ376H8LCg-sn3ZhJRRnsvFiZBFhOhVbXTRd0kOySG_S4ZOI7OMrJ_VlfPKe443mWl3PY_GSnA=="
-                  method="POST" data-type="subscription">
-              <div class="newsletter-row">
-                <input type="email" name="EMAIL" placeholder="jouw@email.nl" required class="newsletter-input" autocomplete="email">
-                <button type="submit" class="btn" data-ga="newsletter_actor"><i class="fa-regular fa-paper-plane"></i> Aanmelden</button>
+            <div class="sib-form">
+              <div id="sib-form-container" class="sib-form-container">
+                <div id="error-message" class="sib-form-message-panel" style="display:none; margin-top:10px;">
+                  <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <span class="sib-form-message-panel__inner-text">Aanmelding mislukt. Probeer het opnieuw.</span>
+                  </div>
+                </div>
+                <div id="success-message" class="sib-form-message-panel" style="display:none; margin-top:10px;">
+                  <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
+                    <span class="sib-form-message-panel__inner-text">✓ Aangemeld! Controleer je inbox voor de bevestiging.</span>
+                  </div>
+                </div>
+                <div id="sib-container" class="sib-container--large sib-container--vertical">
+                  <form class="newsletter-form" id="sib-form"
+                        action="https://e8aa376b.sibforms.com/serve/MUIFALJs6tTnAIvOztlqswCgIuqlbdDxpvB09nxl7TU_i72AMrTiwu4qo1bvNofmvZiJ-B2hAHTLngsEjH46JJ6MpBKS0ra9a2IZd2v3vO4fEWRpgSeBRQIb31s0G1dR9_HEe5q5BQ376H8LCg-sn3ZhJRRnsvFiZBFhOhVbXTRd0kOySG_S4ZOI7OMrJ_VlfPKe443mWl3PY_GSnA=="
+                        method="POST" data-type="subscription">
+                    <div class="newsletter-row">
+                      <input class="input newsletter-input" type="text" id="EMAIL" name="EMAIL"
+                             placeholder="jouw@email.nl" data-required="true" required autocomplete="email">
+                      <button type="submit" class="sib-form-block__button btn" data-ga="newsletter_actor"><i class="fa-regular fa-paper-plane"></i> Aanmelden</button>
+                    </div>
+                    <label class="entry__error entry__error--primary" style="display:none; font-size:12px; font-family:var(--font-m); color:#ff9999; margin-top:6px;"></label>
+                    <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none" aria-hidden="true">
+                    <input type="hidden" name="locale" value="nl">
+                  </form>
+                </div>
               </div>
-              <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none" aria-hidden="true">
-              <input type="hidden" name="locale" value="nl">
-              <div id="error-message" class="sib-form-message-panel" style="display:none; margin-top:10px;"></div>
-              <div id="success-message" class="newsletter-success" style="display:none; margin-top:10px;">
-                <i class="fa-solid fa-check"></i>&nbsp; Aangemeld! Controleer je inbox voor de bevestiging.
-              </div>
-            </form>
+            </div>
           </div>
 
         </div>
@@ -1929,12 +1969,19 @@
         const start = ev.start.dateTime || ev.start.date;
         const date  = new Date(start);
         const label = date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+        var ticketUrl = '';
+        if (ev.description) {
+          var m = ev.description.match(/https?:\/\/[^\s<"]+/);
+          if (m) ticketUrl = m[0];
+        }
         return '<div class="agenda-item">'
           + '<span class="agenda-date">' + label + '</span>'
           + '<div class="agenda-body">'
           + '<span class="agenda-title">' + (ev.summary || '') + '</span>'
           + (ev.location ? '<span class="agenda-loc">' + ev.location + '</span>' : '')
-          + '</div></div>';
+          + '</div>'
+          + (ticketUrl ? '<a class="agenda-tickets" href="' + ticketUrl + '" target="_blank" rel="noopener">Tickets</a>' : '')
+          + '</div>';
       }).join('');
     }
 
@@ -1996,6 +2043,15 @@
       history.pushState({ side: side }, '', '#' + side);
 
       track('panel_activate', { panel: side });
+
+      // GA4 virtual pageview
+      if (typeof gtag !== 'undefined') {
+        var gaTitle = side === 'actor' ? 'Acteur' : 'Fractional CFO';
+        gtag('event', 'page_view', {
+          page_title: gaTitle,
+          page_location: window.location.origin + '/' + side
+        });
+      }
     }
 
     function deactivate() {
@@ -2016,6 +2072,14 @@
         // Cursor kan nog over het CFO-paneel hangen — mouseenter vuur niet opnieuw
         if (cfoPanel.matches(':hover')) body.classList.add('on-cfo');
         history.pushState({ side: 'neutral' }, '', window.location.pathname);
+
+        // GA4 virtual pageview terug naar home
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'page_view', {
+            page_title: 'Home',
+            page_location: window.location.origin + '/'
+          });
+        }
       }, 380);
     }
 
@@ -2431,18 +2495,63 @@
 
   </script>
 
-  <!-- Brevo form JS -->
+  <!-- Nieuwsbrief submit handler (vervangt Brevo main.js) -->
   <script>
-    window.REQUIRED_CODE_ERROR_MESSAGE = 'Kies een landcode';
-    window.LOCALE = 'nl';
-    window.EMAIL_INVALID_MESSAGE = 'Ongeldig e-mailadres. Controleer het formaat.';
-    window.REQUIRED_ERROR_MESSAGE = 'Dit veld is verplicht.';
-    window.GENERIC_INVALID_MESSAGE = 'Ongeldig. Controleer het formaat.';
-    window.translation = { common: { selectedList: '{quantity} lijst geselecteerd', selectedLists: '{quantity} lijsten geselecteerd' } };
-    var AUTOHIDE = Boolean(0);
-  </script>
-  <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+    (function() {
+      var form = document.getElementById('sib-form');
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var emailInput = document.getElementById('EMAIL');
+        var errorEl   = document.getElementById('error-message');
+        var successEl = document.getElementById('success-message');
+        var btn       = form.querySelector('button[type="submit"]');
+        var errorTxt  = errorEl ? errorEl.querySelector('.sib-form-message-panel__inner-text') : null;
 
+        var email = emailInput ? emailInput.value.trim() : '';
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+          if (errorTxt) errorTxt.textContent = 'Vul een geldig e-mailadres in.';
+          if (errorEl)   errorEl.style.display   = 'block';
+          if (successEl) successEl.style.display = 'none';
+          return;
+        }
+
+        if (btn) btn.disabled = true;
+        if (errorEl)   errorEl.style.display   = 'none';
+        if (successEl) successEl.style.display = 'none';
+
+        /* fetch met mode:'no-cors' → geen CORS-fout, geen redirect.
+           Brevo ontvangt de data en stuurt de bevestigingsmail.
+           Wij tonen altijd success (response is opaque, niet leesbaar). */
+        var formData = new FormData(form);
+        fetch(form.action, { method: 'POST', mode: 'no-cors', body: formData })
+          .then(function() {
+            if (btn) btn.disabled = false;
+            var row = form.querySelector('.newsletter-row');
+            if (row) row.style.display = 'none';
+            if (successEl) successEl.style.display = 'block';
+            if (emailInput) emailInput.value = '';
+          })
+          .catch(function() {
+            if (btn) btn.disabled = false;
+            if (errorTxt) errorTxt.textContent = 'Aanmelding mislukt. Probeer het later opnieuw.';
+            if (errorEl) errorEl.style.display = 'block';
+          });
+      });
+    })();
+  </script>
+
+  <!-- GA4 click-events via data-ga attributen -->
+  <script>
+    document.addEventListener('click', function(e) {
+      var el = e.target.closest('[data-ga]');
+      if (!el || typeof gtag === 'undefined') return;
+      gtag('event', 'click', {
+        event_category: 'engagement',
+        event_label: el.getAttribute('data-ga')
+      });
+    });
+  </script>
 
 </body>
 </html>
