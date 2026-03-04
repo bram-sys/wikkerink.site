@@ -1968,7 +1968,8 @@
       container.innerHTML = items.map(function(ev) {
         const start = ev.start.dateTime || ev.start.date;
         const date  = new Date(start);
-        const label = date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
+        const label = date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })
+          + (ev.start.dateTime ? ' · ' + date.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) : '');
         var ticketUrl = '';
         if (ev.description) {
           var m = ev.description.match(/https?:\/\/[^\s<"]+/);
