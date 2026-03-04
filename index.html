@@ -780,7 +780,7 @@
     .agenda-loc { font-size: 12px; opacity: 0.5; }
     .agenda-tickets {
       display: inline-block;
-      align-self: center;
+      align-self: flex-start;
       font-family: var(--font-m);
       font-size: 9px;
       letter-spacing: 0.12em;
@@ -1979,8 +1979,8 @@
           + '<div class="agenda-body">'
           + '<span class="agenda-title">' + (ev.summary || '') + '</span>'
           + (ev.location ? '<span class="agenda-loc">' + ev.location + '</span>' : '')
-          + '</div>'
           + (ticketUrl ? '<a class="agenda-tickets" href="' + ticketUrl + '" target="_blank" rel="noopener">Tickets</a>' : '')
+          + '</div>'
           + '</div>';
       }).join('');
     }
