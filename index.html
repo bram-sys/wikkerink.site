@@ -1346,8 +1346,8 @@
     body.cfo-active .cfo .detail-section:last-child { margin-bottom: 0; }
     /* Tekst leesbaar op de foto */
     body.cfo-active .cfo .detail-label  { color: var(--blue); }
-    body.cfo-active .cfo .detail-h2,
-    body.cfo-active .cfo .detail-h2 em  { color: var(--dark); }
+    body.cfo-active .cfo .detail-h2      { color: var(--dark); }
+    body.cfo-active .cfo .detail-h2 em   { color: var(--blue); }
     body.cfo-active .cfo .detail-text,
     body.cfo-active .cfo .exp-date,
     body.cfo-active .cfo .exp-title,
@@ -1852,7 +1852,7 @@
             <p class="detail-text" data-i18n="cfo.s.aanpak.p3">
               Ik ben datagedreven, schakel snel en breng waar nodig specialisten uit mijn netwerk in. De lijnen blijven kort.
             </p>
-            <p class="detail-pullquote" data-i18n="cfo.s.aanpak.quote" style="font-size:0.85em;margin-top:20px;">Cijfers bewegen mensen niet. Context wel.</p>
+            <p class="detail-pullquote" data-i18n="cfo.s.aanpak.quote" style="margin-top:20px;">Cijfers bewegen mensen niet. Context wel.</p>
           </div>
 
           <!-- 4. Achtergrond -->
@@ -1918,7 +1918,7 @@
       <!-- hint-links vervangen door nav-buttons in .content -->
       <!-- Peek: zichtbaar als acteur-kant gehovered wordt / actief is -->
       <div class="peek cfo-peek">
-        <span>Fractional CFO · Deal Advisor</span>
+        <span>Adviseur · Deal Advisor</span>
       </div>
     </div>
 
@@ -2047,7 +2047,7 @@
 
       // GA4 virtual pageview
       if (typeof gtag !== 'undefined') {
-        var gaTitle = side === 'actor' ? 'Acteur' : 'Fractional CFO';
+        var gaTitle = side === 'actor' ? 'Acteur' : 'Adviseur';
         gtag('event', 'page_view', {
           page_title: gaTitle,
           page_location: window.location.origin + '/' + side
