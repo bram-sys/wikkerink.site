@@ -1,16 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="6" fill="#30323D"/>
-  <defs>
-    <clipPath id="left"><rect x="0" y="0" width="16" height="32"/></clipPath>
-    <clipPath id="right"><rect x="16" y="0" width="16" height="32"/></clipPath>
-  </defs>
-  <!-- W shape: two V's overlapping to form a W -->
-  <g>
-    <path d="M5 8 L9.5 24 L16 12 L22.5 24 L27 8"
-          fill="none" stroke="#E8C547" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"
-          clip-path="url(#left)"/>
-    <path d="M5 8 L9.5 24 L16 12 L22.5 24 L27 8"
-          fill="none" stroke="#5C80BC" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"
-          clip-path="url(#right)"/>
-  </g>
+  <!-- v13 + cirkel eromheen (half geel half blauw) -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="#E8C547" stroke-width="1.5" stroke-dasharray="44 44" stroke-dashoffset="22"/>
+  <circle cx="16" cy="16" r="14" fill="none" stroke="#5C80BC" stroke-width="1.5" stroke-dasharray="44 44" stroke-dashoffset="-22"/>
+  <path d="M7 11 L11 23 L16 14 L21 23 L25 11" fill="none" stroke="#5C80BC" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M7 9 L11 21 L16 12 L21 21 L25 9" fill="none" stroke="#E8C547" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>
