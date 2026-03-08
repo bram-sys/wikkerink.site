@@ -320,14 +320,15 @@
 
     /* NAV BUTTONS */
     .nav-buttons {
-      display: flex; flex-wrap: nowrap; gap: 8px;
-      margin-top: 16px;
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
       opacity: 1; transform: none;
     }
     .nav-btn {
-      font-family: var(--font-m); font-size: 10px; letter-spacing: 0.15em;
+      font-family: var(--font-m); font-size: clamp(10px, 1vw, 12px); letter-spacing: 0.15em;
       text-transform: uppercase; text-decoration: none;
-      padding: 8px 16px; cursor: none;
+      padding: 10px 20px; cursor: none;
       white-space: nowrap;
       transition: background .25s, color .25s, border-color .25s;
       background: transparent;
@@ -350,7 +351,7 @@
     .cred-specs { width: 100%; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .cfo .credibility-bar { justify-content: flex-start; }
     /* CFO nav-buttons altijd op 1 rij */
-    .cfo .nav-buttons { flex-wrap: nowrap; }
+    .cfo .nav-buttons { flex-wrap: wrap; }
     .cred-item { text-align: left; }
     .cred-num {
       display: block;
