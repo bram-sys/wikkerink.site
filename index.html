@@ -636,8 +636,10 @@
       display: block;
       font-family: var(--font-m);
       font-size: clamp(12px, 1.2vw, 16px);
+      font-weight: 400;
       letter-spacing: 0.18em;
       text-transform: uppercase;
+      margin-top: 0;
       margin-bottom: 16px;
     }
     .cfo .detail-label { color: var(--mid); }
@@ -676,7 +678,8 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-      margin-top: 24px;
+      max-width: 560px;
+      margin: 24px auto 0;
     }
     .service-card {
       padding: 28px 24px;
@@ -814,6 +817,8 @@
       max-width: 380px;
       aspect-ratio: 3 / 4;
       object-fit: cover;
+      margin-left: auto;
+      margin-right: auto;
       margin-bottom: 32px;
       filter: grayscale(0.15);
     }
@@ -824,9 +829,11 @@
       font-size: clamp(22px, 2.5vw, 32px);
       font-style: italic;
       line-height: 1.3;
-      margin-top: 32px;
+      max-width: 520px;
+      margin: 32px auto 0;
       padding-left: 20px;
       border-left: 2px solid;
+      text-align: left;
     }
     .cfo .detail-pullquote {
       color: var(--blue);
@@ -836,7 +843,7 @@
     /* Ervaring beschrijving */
     .exp-desc {
       font-family: var(--font-d);
-      font-size: 13px;
+      font-size: clamp(12px, 1.1vw, 13px);
       line-height: 1.6;
       margin-top: 4px;
     }
@@ -850,6 +857,7 @@
       margin-top: 28px;
       padding-top: 20px;
       border-top: 1px solid;
+      justify-content: center;
     }
     .cfo .skills-row { border-color: rgba(48,50,61,0.1); }
     .skill-tag {
@@ -869,15 +877,17 @@
     /* Contact subtitel */
     .detail-cta-sub {
       font-family: var(--font-d);
-      font-size: 14.5px;
-      margin-bottom: 20px;
+      font-size: clamp(13px, 1.2vw, 14.5px);
+      max-width: 520px;
+      margin: 0 auto 20px;
     }
     .cfo .detail-cta-sub { color: rgba(205,209,196,0.7); }
 
     .detail-cta-alt {
       font-family: var(--font-d);
-      font-size: 13.5px;
-      margin-top: 20px;
+      font-size: clamp(12px, 1.15vw, 13.5px);
+      max-width: 520px;
+      margin: 20px auto 0;
       line-height: 1.6;
     }
     .cfo .detail-cta-alt { color: rgba(205,209,196,0.5); }
@@ -912,7 +922,7 @@
       width: 100%;
       max-width: 560px;
       aspect-ratio: 16 / 9;
-      margin-top: 24px;
+      margin: 24px auto 0;
       overflow: hidden;
       border-radius: 3px;
     }
@@ -1063,7 +1073,9 @@
     /* Stats-blok in detail-secties (donkere box) */
     .stats-block {
       display: flex; gap: 20px 32px; flex-wrap: wrap;
-      margin-top: 22px;
+      justify-content: center;
+      max-width: 520px;
+      margin: 22px auto 0;
       padding: 18px 22px;
       background: rgba(26,26,31,0.55);
       border-left: 2px solid rgba(232,197,71,0.40);
@@ -1084,8 +1096,10 @@
       display: grid;
       grid-template-columns: auto 1fr;
       gap: 10px 22px;
-      margin-top: 22px;
+      max-width: 400px;
+      margin: 22px auto 0;
       align-items: start;
+      text-align: left;
     }
     .spec-key {
       font-family: var(--font-m);
@@ -1146,7 +1160,7 @@
     }
 
     /* ── Nieuwsbrief formulier ── */
-    .newsletter-form { margin-top: 20px; }
+    .newsletter-form { margin-top: 20px; max-width: 480px; margin-left: auto; margin-right: auto; }
     .newsletter-row {
       display: flex; gap: 8px; flex-wrap: wrap; align-items: stretch;
     }
@@ -1199,6 +1213,7 @@
       display: flex;
       gap: 20px;
       align-items: baseline;
+      text-align: left;
     }
     .upcoming-item:last-child { border-bottom: none; }
     .upcoming-date {
@@ -1576,8 +1591,8 @@
           <div class="detail-section" id="acteur-agenda">
             <h2 class="detail-h2"><span data-i18n="actor.s.agenda.h2">Op de</span> <em data-i18n="actor.s.agenda.h2em">planken.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label" data-i18n="actor.s.agenda.label">Speellijst</span>
-            <div id="gcal-events">
+            <h3 class="detail-label" data-i18n="actor.s.agenda.label">Speellijst</h3>
+            <div id="gcal-events" aria-live="polite" aria-busy="true">
               <p class="detail-text gcal-loading" data-i18n="actor.s.agenda.loading">Agenda laden…</p>
             </div>
           </div>
@@ -1586,18 +1601,18 @@
           <div class="detail-section" id="acteur-fotos">
             <h2 class="detail-h2"><span data-i18n="actor.s.fotos.h2">In</span> <em data-i18n="actor.s.fotos.h2em">beeld.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label" data-i18n="actor.s.fotos.label">Foto's</span>
+            <h3 class="detail-label" data-i18n="actor.s.fotos.label">Foto's</h3>
             <div class="photo-carousel">
               <button class="carousel-btn carousel-prev" onclick="cslide(-1)" aria-label="Vorige foto">&#8592;</button>
               <div class="carousel-track" id="carousel-track">
-                <img src="fotos-carousel/315123.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/622556.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/167685.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/533154.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/304689.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/832446.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/571769.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
-                <img src="fotos-carousel/822506.jpg" alt="Bram Wikkerink — foto" class="photo-thumb carousel-img" loading="lazy">
+                <img src="fotos-carousel/315123.jpg" alt="Bram Wikkerink — acteur portret" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/622556.jpg" alt="Bram Wikkerink — theaterproductie" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/167685.jpg" alt="Bram Wikkerink — op het podium" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/533154.jpg" alt="Bram Wikkerink — acteur Amsterdam" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/304689.jpg" alt="Bram Wikkerink — scène" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/832446.jpg" alt="Bram Wikkerink — portretfotografie" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/571769.jpg" alt="Bram Wikkerink — theaterfoto" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="fotos-carousel/822506.jpg" alt="Bram Wikkerink — performer" class="photo-thumb carousel-img" loading="lazy" decoding="async">
               </div>
               <button class="carousel-btn carousel-next" onclick="cslide(1)" aria-label="Volgende foto">&#8594;</button>
             </div>
@@ -1607,7 +1622,7 @@
           <div class="detail-section" id="acteur-showreel">
             <h2 class="detail-h2"><span data-i18n="actor.s.showreel.h2">Vertelt.</span><br><em data-i18n="actor.s.showreel.h2em">Ontvlamt.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label" data-i18n="actor.s.showreel.label">Over mij</span>
+            <h3 class="detail-label" data-i18n="actor.s.showreel.label">Over mij</h3>
             <div class="casting-specs">
               <span class="spec-key" data-i18n="actor.s.showreel.spec.height">Lengte</span>
               <div class="spec-tags"><span class="spec-tag">185 cm</span></div>
@@ -1651,23 +1666,23 @@
           <div class="detail-section" id="acteur-opmaat">
             <h2 class="detail-h2"><em data-i18n="actor.s.opmaat.h2em">Op maat.</em></h2>
             <div class="detail-divider"></div>
-            <span class="detail-label" data-i18n="actor.s.opmaat.label">Voorstellingen op maat</span>
+            <h3 class="detail-label" data-i18n="actor.s.opmaat.label">Voorstellingen op maat</h3>
             <p class="detail-text" data-i18n="actor.s.opmaat.body">
               Met Theatergroep Wijsmakers maak ik voorstellingen op maat voor bedrijven — teamdagen, relatie-events, jubilea en kick-offs. Theater, muziek en humor, geschreven rond jullie verhaal.
             </p>
             <div class="photo-carousel">
               <button class="carousel-btn carousel-prev" onclick="wslide(-1)" aria-label="Vorige foto">&#8592;</button>
               <div class="carousel-track" id="wijsmakers-track">
-                <img src="wijsmakers/wijsmakers-1.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-2.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-3.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-4.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-5.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-6.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-7.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-8.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-9.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
-                <img src="wijsmakers/wijsmakers-10.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-1.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat voor bedrijven" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-2.jpg" alt="Wijsmakers — zakelijk theater op locatie" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-3.jpg" alt="Wijsmakers — interactief bedrijfstheater" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-4.jpg" alt="Wijsmakers — teamdag voorstelling" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-5.jpg" alt="Wijsmakers — theater met muziek en humor" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-6.jpg" alt="Wijsmakers — op maat gemaakte show" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-7.jpg" alt="Wijsmakers — podiumkunst voor evenementen" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-8.jpg" alt="Wijsmakers — theatrale kick-off" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-9.jpg" alt="Wijsmakers — relatie-event entertainment" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img src="wijsmakers/wijsmakers-10.jpg" alt="Theatergroep Wijsmakers — jubileum voorstelling" class="photo-thumb carousel-img" loading="lazy" decoding="async">
               </div>
               <button class="carousel-btn carousel-next" onclick="wslide(1)" aria-label="Volgende foto">&#8594;</button>
             </div>
@@ -1765,7 +1780,7 @@
           </div>
 
           <div class="detail-section" id="acteur-nieuwsbrief">
-            <span class="detail-label" data-i18n="actor.s.nl.label">Nieuwsbrief</span>
+            <h3 class="detail-label" data-i18n="actor.s.nl.label">Nieuwsbrief</h3>
             <h2 class="detail-h2"><span data-i18n="actor.s.nl.h2">Blijf op de</span> <em data-i18n="actor.s.nl.h2em">hoogte.</em></h2>
             <div class="detail-divider"></div>
             <p class="detail-text" data-i18n="actor.s.nl.body">Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.</p>
@@ -1835,10 +1850,10 @@
 
           <!-- 1. Over mij -->
           <div class="detail-section" id="cfo-profiel">
-            <span class="detail-label" data-i18n="cfo.s.profiel.label">Fractional CFO · Deal Advisor</span>
+            <h3 class="detail-label" data-i18n="cfo.s.profiel.label">Fractional CFO · Deal Advisor</h3>
             <h2 class="detail-h2"><span data-i18n="cfo.s.profiel.h2">Financiële scherpte</span><br><em data-i18n="cfo.s.profiel.h2em">op het juiste moment.</em></h2>
             <div class="detail-divider"></div>
-            <img src="img_cfo.jpg" alt="Portretfoto Bram Wikkerink, Fractional CFO" class="detail-portrait" loading="lazy">
+            <img src="img_cfo.jpg" alt="Portretfoto Bram Wikkerink, Fractional CFO en Deal Advisor in Amsterdam" class="detail-portrait" loading="lazy" decoding="async">
             <p class="detail-text" data-i18n="cfo.s.profiel.p1">
               Niet elke onderneming heeft een fulltime CFO nodig — maar wél iemand die de financiële complexiteit doorziet en vertaalt naar heldere keuzes. Ik werk met ondernemers op de momenten die ertoe doen: groei financieren, een overname structureren, of de organisatie klaarstomen voor de volgende fase.
             </p>
@@ -1849,7 +1864,7 @@
 
           <!-- 2. Wat ik doe -->
           <div class="detail-section" id="cfo-diensten">
-            <span class="detail-label" data-i18n="cfo.s.diensten.label">Wat ik doe</span>
+            <h3 class="detail-label" data-i18n="cfo.s.diensten.label">Wat ik doe</h3>
             <h2 class="detail-h2"><span data-i18n="cfo.s.diensten.h2">Van data</span><br><em data-i18n="cfo.s.diensten.h2em">naar sturing</em></h2>
             <div class="detail-divider"></div>
             <div class="service-grid">
@@ -1882,7 +1897,7 @@
 
           <!-- 3. Aanpak -->
           <div class="detail-section" id="cfo-aanpak">
-            <span class="detail-label" data-i18n="cfo.s.aanpak.label">Hoe ik denk</span>
+            <h3 class="detail-label" data-i18n="cfo.s.aanpak.label">Hoe ik denk</h3>
             <h2 class="detail-h2"><span data-i18n="cfo.s.aanpak.h2">Verhalen</span><br><em data-i18n="cfo.s.aanpak.h2em">die kloppen.</em></h2>
             <div class="detail-divider"></div>
             <p class="detail-text" data-i18n="cfo.s.aanpak.p1">
@@ -1899,7 +1914,7 @@
 
           <!-- 4. Achtergrond -->
           <div class="detail-section" id="cfo-ervaring">
-            <span class="detail-label" data-i18n="cfo.s.ervaring.label">Achtergrond</span>
+            <h3 class="detail-label" data-i18n="cfo.s.ervaring.label">Achtergrond</h3>
             <h2 class="detail-h2"><span data-i18n="cfo.s.ervaring.h2">Brede</span><br><em data-i18n="cfo.s.ervaring.h2em">dealervaring</em></h2>
             <div class="detail-divider"></div>
             <div class="exp-item">
@@ -1984,6 +1999,7 @@
       const key   = window.GCAL_KEY;
       const calId = window.GCAL_CAL_ID;
       if (!key || !calId) {
+        container.setAttribute('aria-busy', 'false');
         container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Nieuwe voorstellingen volgen binnenkort — volg me op <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" style="color:var(--yellow)">Instagram</a> voor de laatste updates.</p>';
         return;
       }
@@ -1998,11 +2014,13 @@
         .then(function(r) { return r.json(); })
         .then(function(data) { renderGCalEvents(data.items, container); })
         .catch(function() {
+          container.setAttribute('aria-busy', 'false');
           container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Kan de agenda niet laden. Probeer het later opnieuw.</p>';
         });
     })();
 
     function renderGCalEvents(items, container) {
+      container.setAttribute('aria-busy', 'false');
       if (!items || items.length === 0) {
         container.innerHTML = '<p class="detail-text" style="opacity:0.6;">Geen aankomende voorstellingen gepland.</p>';
         return;
