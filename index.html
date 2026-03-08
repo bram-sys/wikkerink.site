@@ -1534,8 +1534,9 @@
           <a href="#acteur-agenda" class="nav-btn" data-panel="actor" data-i18n="actor.nav0">Speellijst</a>
           <a href="#acteur-fotos" class="nav-btn" data-panel="actor" data-i18n="actor.nav1">Foto's</a>
           <a href="#acteur-showreel" class="nav-btn" data-panel="actor" data-i18n="actor.nav2">Showreel</a>
-          <a href="#acteur-repertoire" class="nav-btn" data-panel="actor" data-i18n="actor.nav3">Repertoire</a>
-          <a href="#acteur-contact" class="nav-btn" data-panel="actor" data-i18n="actor.nav4">Contact</a>
+          <a href="#acteur-opmaat" class="nav-btn" data-panel="actor" data-i18n="actor.nav3">Op Maat</a>
+          <a href="#acteur-repertoire" class="nav-btn" data-panel="actor" data-i18n="actor.nav4">Repertoire</a>
+          <a href="#acteur-contact" class="nav-btn" data-panel="actor" data-i18n="actor.nav5">Contact</a>
         </div>
         <button class="back-btn actor-back" data-i18n="ui.back">← Terug</button>
       </div>
@@ -1617,7 +1618,37 @@
             </div>
           </div>
 
-          <!-- 4. Repertoire (Geweest) -->
+          <!-- 4. Op Maat (Wijsmakers) -->
+          <div class="detail-section" id="acteur-opmaat">
+            <h2 class="detail-h2"><em data-i18n="actor.s.opmaat.h2em">Op maat.</em></h2>
+            <div class="detail-divider"></div>
+            <span class="detail-label" data-i18n="actor.s.opmaat.label">Voorstellingen op maat</span>
+            <p class="detail-text" data-i18n="actor.s.opmaat.body">
+              Met Theatergroep Wijsmakers maak ik voorstellingen op maat voor bedrijven — teamdagen, relatie-events, jubilea en kick-offs. Theater, muziek en humor, geschreven rond jullie verhaal.
+            </p>
+            <div class="photo-carousel">
+              <button class="carousel-btn carousel-prev" onclick="wslide(-1)" aria-label="Vorige foto">&#8592;</button>
+              <div class="carousel-track" id="wijsmakers-track">
+                <img src="wijsmakers/wijsmakers-1.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-2.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-3.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-4.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-5.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-6.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-7.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-8.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-9.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+                <img src="wijsmakers/wijsmakers-10.jpg" alt="Theatergroep Wijsmakers — voorstelling op maat" class="photo-thumb carousel-img" loading="lazy">
+              </div>
+              <button class="carousel-btn carousel-next" onclick="wslide(1)" aria-label="Volgende foto">&#8594;</button>
+            </div>
+            <a href="https://rubenwolbers.nl/wijsmakers" target="_blank" rel="noopener" class="btn" style="margin-top:20px; display:inline-block;">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              <span data-i18n="actor.s.opmaat.btn">Meer over Wijsmakers</span>
+            </a>
+          </div>
+
+          <!-- 5. Repertoire (Geweest) -->
           <div class="detail-section" id="acteur-repertoire">
             <h2 class="detail-h2"><em data-i18n="actor.s.rep.h2em">Repertoire.</em></h2>
             <div class="detail-divider"></div>
@@ -2282,6 +2313,14 @@
       t.scrollLeft += dir * (img.offsetWidth + 8);
     }
 
+    function wslide(dir) {
+      var t = document.getElementById('wijsmakers-track');
+      if (!t) return;
+      var img = t.querySelector('.carousel-img');
+      if (!img) return;
+      t.scrollLeft += dir * (img.offsetWidth + 8);
+    }
+
     /* ── Contact link tracking via data-ga attribuut ── */
     document.querySelectorAll('[data-ga]').forEach(function(el) {
       el.addEventListener('click', function() {
@@ -2297,7 +2336,7 @@
         'actor.h2': 'Vertelt.', 'actor.h2em': 'Ontvlamt.',
         'actor.body': 'Op het podium, voor de camera — en altijd met iets op het hart.',
         'actor.nav0': 'Speellijst', 'actor.nav1': "Foto's", 'actor.nav2': 'Showreel',
-        'actor.nav3': 'Repertoire', 'actor.nav4': 'Contact',
+        'actor.nav3': 'Op Maat', 'actor.nav4': 'Repertoire', 'actor.nav5': 'Contact',
         /* Actor detail — agenda */
         'actor.s.agenda.h2': 'Op de', 'actor.s.agenda.h2em': 'planken.',
         'actor.s.agenda.label': 'Speellijst',
@@ -2315,6 +2354,11 @@
         'actor.s.showreel.spec.lang0': 'Nederlands', 'actor.s.showreel.spec.lang1': 'Engels', 'actor.s.showreel.spec.lang2': 'Duits',
         'actor.s.showreel.spec.instr': 'Instrumenten', 'actor.s.showreel.spec.instr1': 'Gitaar',
         'actor.s.showreel.bio': 'Ik ben een fysieke, energieke acteur met een sterke podiumaanwezigheid en gevoel voor komische timing. Ik speel in uiteenlopende stijlen — van scherp komisch tot rauw emotioneel — en ik doe dat met precisie en spelplezier. Muzikaliteit zit in alles wat ik maak. Boven alles wil ik vertellen. Op het podium, voor de camera of jouw boodschap op maat. Ik geloof dat kunst mensen kan raken en bewegen. Ontvlammen. Daar moet het over gaan.',
+        /* Actor detail — op maat */
+        'actor.s.opmaat.h2em': 'Op maat.',
+        'actor.s.opmaat.label': 'Voorstellingen op maat',
+        'actor.s.opmaat.body': 'Met Theatergroep Wijsmakers maak ik voorstellingen op maat voor bedrijven — teamdagen, relatie-events, jubilea en kick-offs. Theater, muziek en humor, geschreven rond jullie verhaal.',
+        'actor.s.opmaat.btn': 'Meer over Wijsmakers',
         /* Actor detail — repertoire */
         'actor.s.rep.h2em': 'Repertoire.',
         /* Actor detail — contact */
@@ -2381,7 +2425,7 @@
         'actor.h2': 'Tells.', 'actor.h2em': 'Ignites.',
         'actor.body': 'On stage, on screen — and always with something to say.',
         'actor.nav0': 'Schedule', 'actor.nav1': 'Photos', 'actor.nav2': 'Showreel',
-        'actor.nav3': 'Repertoire', 'actor.nav4': 'Contact',
+        'actor.nav3': 'Custom Shows', 'actor.nav4': 'Repertoire', 'actor.nav5': 'Contact',
         /* Actor detail — agenda */
         'actor.s.agenda.h2': 'On', 'actor.s.agenda.h2em': 'stage.',
         'actor.s.agenda.label': 'Schedule',
@@ -2399,6 +2443,11 @@
         'actor.s.showreel.spec.lang0': 'Dutch', 'actor.s.showreel.spec.lang1': 'English', 'actor.s.showreel.spec.lang2': 'German',
         'actor.s.showreel.spec.instr': 'Instruments', 'actor.s.showreel.spec.instr1': 'Guitar',
         'actor.s.showreel.bio': 'I\'m a physical, energetic actor with a strong stage presence and a natural sense of comic timing. I work across a wide range of styles — from sharp comedy to raw emotion — with precision and genuine joy. Musicality runs through everything I make. More than anything, I want to tell stories. On stage, on screen, or tailored to your message. I believe art can touch and move people. Ignite them. That\'s what it has to be about.',
+        /* Actor detail — op maat */
+        'actor.s.opmaat.h2em': 'Custom shows.',
+        'actor.s.opmaat.label': 'Custom performances',
+        'actor.s.opmaat.body': 'With Theatergroep Wijsmakers I create custom performances for companies — team days, client events, anniversaries and kick-offs. Theatre, music and humour, written around your story.',
+        'actor.s.opmaat.btn': 'More about Wijsmakers',
         /* Actor detail — repertoire */
         'actor.s.rep.h2em': 'Repertoire.',
         /* Actor detail — contact */
