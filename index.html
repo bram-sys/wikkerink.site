@@ -23,6 +23,24 @@
   <meta property="og:title" content="Bram Wikkerink — Acteur &amp; Fractional CFO"/>
   <meta property="og:description" content="Bram Wikkerink: acteur, maker en zanger uit Amsterdam, én fractional CFO en deal advisor voor groeiende bedrijven."/>
   <meta property="og:image" content="https://wikkerink.me/All%20pictures/Shoot%20Anna/Portretshoot-Bram-37.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="800"/>
+  <meta property="og:locale" content="nl_NL"/>
+  <meta property="og:locale:alternate" content="en_US"/>
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Bram Wikkerink — Acteur &amp; Fractional CFO"/>
+  <meta name="twitter:description" content="Bram Wikkerink: acteur, maker en zanger uit Amsterdam, én fractional CFO en deal advisor voor groeiende bedrijven."/>
+  <meta name="twitter:image" content="https://wikkerink.me/All%20pictures/Shoot%20Anna/Portretshoot-Bram-37.jpg"/>
+
+  <!-- Hreflang -->
+  <link rel="alternate" hreflang="nl" href="https://wikkerink.me/"/>
+  <link rel="alternate" hreflang="en" href="https://wikkerink.me/?lang=en"/>
+  <link rel="alternate" hreflang="x-default" href="https://wikkerink.me/"/>
+
+  <!-- Theme color -->
+  <meta name="theme-color" content="#30323D"/>
 
   <!-- JSON-LD structured data -->
   <script type="application/ld+json">
@@ -31,18 +49,25 @@
     "@type": "Person",
     "name": "Bram Wikkerink",
     "url": "https://wikkerink.me",
+    "image": "https://wikkerink.me/All%20pictures/Shoot%20Anna/Portretshoot-Bram-37.jpg",
+    "email": "bram@wikkerink.me",
     "sameAs": [
       "https://instagram.com/i_am_not_bram",
       "https://www.linkedin.com/in/bram-wikkerink-28993566/"
     ],
     "jobTitle": ["Acteur", "Fractional CFO"],
     "worksFor": { "@type": "Organization", "name": "Zelfstandig" },
-    "address": { "@type": "PostalAddress", "addressLocality": "Amsterdam", "addressCountry": "NL" }
+    "address": { "@type": "PostalAddress", "addressLocality": "Amsterdam", "addressCountry": "NL" },
+    "knowsLanguage": ["nl", "en", "de"]
   }
   </script>
 
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"/>
+  <link rel="dns-prefetch" href="https://sibforms.com"/>
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css"/>
@@ -1534,14 +1559,14 @@
         </span>
         <h2><span data-i18n="actor.h2">Vertelt.</span><em data-i18n="actor.h2em">Ontvlamt.</em></h2>
         <p class="body" data-i18n="actor.body">Op het podium, voor de camera — en altijd met iets op het hart.</p>
-        <div class="nav-buttons">
+        <nav class="nav-buttons" aria-label="Acteur secties">
           <a href="#acteur-agenda" class="nav-btn" data-panel="actor" data-i18n="actor.nav0">Speellijst</a>
           <a href="#acteur-fotos" class="nav-btn" data-panel="actor" data-i18n="actor.nav1">Foto's</a>
           <a href="#acteur-showreel" class="nav-btn" data-panel="actor" data-i18n="actor.nav2">Showreel</a>
           <a href="#acteur-opmaat" class="nav-btn" data-panel="actor" data-i18n="actor.nav3">Op Maat</a>
           <a href="#acteur-repertoire" class="nav-btn" data-panel="actor" data-i18n="actor.nav4">Repertoire</a>
           <a href="#acteur-contact" class="nav-btn" data-panel="actor" data-i18n="actor.nav5">Contact</a>
-        </div>
+        </nav>
         <button class="back-btn actor-back" data-i18n="ui.back">← Terug</button>
       </div>
       <section class="detail actor-detail">
@@ -1732,9 +1757,9 @@
             <h2 class="detail-h2 actor-cta-h2"><span data-i18n="actor.s.contact.h2">Samen</span> <em data-i18n="actor.s.contact.h2em">spelen?</em></h2>
             <div class="detail-divider"></div>
             <div class="contact-links">
-              <a href="https://instagram.com/i_am_not_bram" target="_blank" class="btn" data-ga="contact_instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
+              <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" class="btn" data-ga="contact_instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_actor"><i class="fa-regular fa-envelope"></i> E-mail</a>
-              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> <span data-i18n="actor.s.contact.session">Plan een sessie</span></a>
+              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" rel="noopener" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> <span data-i18n="actor.s.contact.session">Plan een sessie</span></a>
               <a href="Bram_Wikkerink_CV.pdf" download class="btn" data-ga="contact_cv_download"><i class="fa-solid fa-download"></i> <span data-i18n="actor.s.contact.cv">Download CV</span></a>
             </div>
           </div>
@@ -1796,13 +1821,13 @@
         </span>
         <h2><span data-i18n="cfo.h2">Verhalen</span><br><em data-i18n="cfo.h2em">Die kloppen</em></h2>
         <p class="body" data-i18n="cfo.body">Transities — groei, overnames, herstructurering.<br><br>9+ jaar ervaring<br>Ex-PwC, ex-VC<br><br>MSc Economics &amp; MSc Finance.</p>
-        <div class="nav-buttons">
+        <nav class="nav-buttons" aria-label="Adviseur secties">
           <a href="#cfo-profiel" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav0">Profiel</a>
           <a href="#cfo-diensten" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav1">Diensten</a>
           <a href="#cfo-aanpak" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav2">Aanpak</a>
           <a href="#cfo-ervaring" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav3">Ervaring</a>
           <a href="#cfo-contact" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav4">Contact</a>
-        </div>
+        </nav>
         <button class="back-btn cfo-back" data-i18n="ui.back">← Terug</button>
       </div>
       <section class="detail cfo-detail">
@@ -1923,8 +1948,8 @@
             <h2 class="detail-h2 cfo-cta-h2"><span data-i18n="cfo.s.contact.h2">Laten we</span> <em data-i18n="cfo.s.contact.h2em">kennismaken.</em></h2>
             <div class="detail-divider"></div>
             <div class="contact-links cfo-contact-links">
-              <a href="https://www.linkedin.com/in/bram-wikkerink-28993566/" target="_blank" class="btn" data-ga="contact_linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> <span data-i18n="cfo.s.contact.appt">Plan een afspraak</span></a>
+              <a href="https://www.linkedin.com/in/bram-wikkerink-28993566/" target="_blank" rel="noopener" class="btn" data-ga="contact_linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" rel="noopener" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> <span data-i18n="cfo.s.contact.appt">Plan een afspraak</span></a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_cfo"><i class="fa-regular fa-envelope"></i> E-mail</a>
             </div>
           </div>
@@ -1948,7 +1973,7 @@
   <!-- Lightbox overlay — moet vóór het script staan zodat getElementById werkt -->
   <div class="lightbox" id="lightbox">
     <button class="lightbox-close" aria-label="Sluiten">&#215;</button>
-    <img src="" alt="">
+    <img src="" alt="Foto uitvergroot" id="lightbox-img">
   </div>
 
   <script>
