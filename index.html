@@ -350,8 +350,8 @@
     .actor .credibility-bar { justify-content: flex-start; flex-wrap: wrap; align-items: flex-end; gap: 20px; }
     .cred-specs { width: 100%; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
     .cfo .credibility-bar { justify-content: flex-start; }
-    /* CFO nav-buttons altijd op 1 rij */
-    .cfo .nav-buttons { flex-wrap: wrap; }
+    /* CFO nav-buttons links uitlijnen (content is ook left-aligned) */
+    .cfo .nav-buttons { flex-wrap: wrap; justify-content: flex-start; }
     .cred-item { text-align: left; }
     .cred-num {
       display: block;
@@ -449,6 +449,9 @@
       /* Neutraal: horizontaal links/rechts */
       .split { flex-direction: row; height: 100svh; }
       .panel { height: 100svh; }
+
+      /* Foto minder donker op kleine panelen */
+      .actor-slides { filter: brightness(0.85) contrast(1.05); }
 
       /* Fix 1: kleinere h2 zodat tekst netjes wraps in 50% kolom */
       .actor .content h2 { font-size: clamp(30px, 8.5vw, 48px); }
@@ -1849,7 +1852,7 @@
           <span data-i18n="cfo.role1">Deal Advisor</span>
         </span>
         <h2><span data-i18n="cfo.h2">Verhalen</span><br><em data-i18n="cfo.h2em">Die kloppen</em></h2>
-        <p class="body" data-i18n="cfo.body">Transities — groei, overnames, herstructurering.<br><br>9+ jaar ervaring<br>Ex-PwC, ex-VC<br><br>MSc Economics &amp; MSc Finance.</p>
+        <p class="body" data-i18n="cfo.body">Groei financieren, overnames structureren, organisaties klaarstomen. Ex-PwC · ex-VC · 9+ jaar ervaring.</p>
         <nav class="nav-buttons" aria-label="Adviseur secties">
           <a href="#cfo-profiel" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav0">Profiel</a>
           <a href="#cfo-diensten" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav1">Diensten</a>
@@ -1989,7 +1992,7 @@
       <!-- hint-links vervangen door nav-buttons in .content -->
       <!-- Peek: zichtbaar als acteur-kant gehovered wordt / actief is -->
       <div class="peek cfo-peek">
-        <span>Adviseur · Deal Advisor</span>
+        <span>Fractional CFO · Deal Advisor</span>
       </div>
     </div>
 
@@ -2432,7 +2435,7 @@
         /* CFO hero */
         'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
         'cfo.h2': 'Verhalen', 'cfo.h2em': 'Die kloppen',
-        'cfo.body': 'Transities — groei, overnames, herstructurering.\n\n9+ jaar ervaring\nEx-PwC, ex-VC\n\nMSc Economics & MSc Finance.',
+        'cfo.body': 'Groei financieren, overnames structureren, organisaties klaarstomen. Ex-PwC · ex-VC · 9+ jaar ervaring.',
         'cfo.nav0': 'Profiel', 'cfo.nav1': 'Diensten', 'cfo.nav2': 'Aanpak',
         'cfo.nav3': 'Ervaring', 'cfo.nav4': 'Contact',
         /* CFO detail — profiel */
@@ -2521,7 +2524,7 @@
         /* CFO hero */
         'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
         'cfo.h2': 'Stories', 'cfo.h2em': 'That hold.',
-        'cfo.body': 'Transitions — growth, acquisitions, restructuring.\n9+ years experience\nEx-PwC, ex-VC\nMSc Economics & MSc Finance.',
+        'cfo.body': 'Financing growth, structuring acquisitions, preparing organisations for what\'s next. Ex-PwC · ex-VC · 9+ years.',
         'cfo.nav0': 'Profile', 'cfo.nav1': 'Services', 'cfo.nav2': 'Approach',
         'cfo.nav3': 'Experience', 'cfo.nav4': 'Contact',
         /* CFO detail — profiel */
