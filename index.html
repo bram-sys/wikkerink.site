@@ -428,6 +428,7 @@
       white-space: nowrap;
       transition: background .25s, color .25s, border-color .25s;
       background: transparent;
+      flex: 0 0 calc(50% - 5px); text-align: center;
     }
     .actor .nav-btn { background: var(--yellow); color: var(--dark); border-color: var(--yellow); }
     .actor .nav-btn:hover { background: transparent; color: var(--yellow); border-color: rgba(232,197,71,0.5); }
@@ -601,6 +602,8 @@
         mask-image: linear-gradient(to right, black 80%, transparent 100%);
       }
       .nav-buttons::-webkit-scrollbar { display: none; }
+      /* Op mobile: auto-breedte zodat scroll niet breekt */
+      .nav-btn { flex: 0 0 auto; text-align: left; }
 
       /* Taak 0: sticky nav-balk — blijft zichtbaar bij scrollen */
       body.actor-active .actor .nav-buttons,
@@ -1952,7 +1955,6 @@
         <nav class="nav-buttons" aria-label="Adviseur secties">
           <a href="#cfo-profiel" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav0">Profiel</a>
           <a href="#cfo-diensten" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav1">Diensten</a>
-          <a href="#cfo-aanpak" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav2">Aanpak</a>
           <a href="#cfo-ervaring" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav3">Ervaring</a>
           <a href="#cfo-contact" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav4">Contact</a>
         </nav>
