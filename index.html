@@ -2124,7 +2124,7 @@
         + '/events?key=' + key
         + '&singleEvents=true&orderBy=startTime'
         + '&timeMin=' + encodeURIComponent(now)
-        + '&maxResults=8';
+        + '&maxResults=50';
       fetch(url)
         .then(function(r) { return r.json(); })
         .then(function(data) { renderGCalEvents(data.items, container); })
