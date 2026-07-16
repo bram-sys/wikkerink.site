@@ -205,6 +205,9 @@
       transform: translate(-50%,-50%); opacity: 0.5;
       transition: width .3s, height .3s, border-color .3s;
     }
+    /* Cursor pas tonen na eerste muisbeweging — voorkomt gele stip linksboven bij load */
+    body:not(.has-cursor) #cur-dot,
+    body:not(.has-cursor) #cur-ring { opacity: 0; }
     body.on-cfo #cur-dot  { background: var(--blue); }
     body.on-cfo #cur-ring { border-color: var(--blue); opacity: 0.65; }
     body.cursor-big #cur-dot  { width: 16px; height: 16px; }
@@ -338,7 +341,7 @@
       position: relative; z-index: 5;
       padding: 52px 56px; max-width: 460px;
     }
-    .cfo .content { align-self: flex-start; text-align: left; }
+    .cfo .content { align-self: flex-start; text-align: left; max-width: 500px; }
 
     .label {
       display: flex; flex-direction: column; gap: 1px;
@@ -371,7 +374,7 @@
       line-height: 0.9; letter-spacing: -0.02em; margin-bottom: 20px;
     }
     .actor .content h2 { font-size: clamp(60px, 7vw, 110px); color: var(--white); }
-    .cfo   .content h2 { font-size: clamp(48px, 5.5vw, 85px); color: var(--dark); }
+    .cfo   .content h2 { font-size: clamp(42px, 4.7vw, 68px); color: var(--dark); }
     .content h2 em { display: block; font-style: italic; }
     .actor .content h2 em { color: var(--yellow); }
     .cfo   .content h2 em { color: var(--blue); }
@@ -428,11 +431,12 @@
       white-space: nowrap;
       transition: background .25s, color .25s, border-color .25s;
       background: transparent;
+      border: 1.5px solid transparent;
       flex: 0 0 calc(50% - 5px); text-align: center;
     }
     .actor .nav-btn { background: var(--yellow); color: var(--dark); border-color: var(--yellow); }
-    .actor .nav-btn:hover { background: transparent; color: var(--yellow); border-color: rgba(232,197,71,0.5); }
-    .cfo .nav-btn { background: var(--blue); color: var(--white); border: 1.5px solid var(--blue); }
+    .actor .nav-btn:hover { background: transparent; color: var(--yellow); border-color: rgba(232,197,71,0.6); }
+    .cfo .nav-btn { background: var(--blue); color: var(--white); border-color: var(--blue); }
     .cfo .nav-btn:hover { background: var(--white); color: var(--dark); border-color: var(--white); }
     /* nav-buttons altijd zichtbaar — hover-show regels niet meer nodig */
 
@@ -584,10 +588,10 @@
       body.actor-active .actor-back,
       body.cfo-active   .cfo-back { display: inline-flex; }
 
-      /* Peek in bovenste balk: horizontale tekst (geen vertical-rl) */
+      /* Peek in bovenste balk: horizontale tekst (geen vertical-rl);
+         layout-overrides staan ná de basis-.peek-regels verderop */
       .actor-peek, .cfo-peek {
         writing-mode: horizontal-tb;
-        transform: translate(-50%, -50%);
         white-space: nowrap;
       }
 
@@ -605,23 +609,20 @@
       /* Op mobile: auto-breedte zodat scroll niet breekt */
       .nav-btn { flex: 0 0 auto; text-align: left; }
 
-      /* Taak 0: sticky nav-balk — blijft zichtbaar bij scrollen */
+      /* Actieve strip op mobiel: compacter + duidelijke achtergrond;
+         de strip zelf is al sticky (.content), nav scrollt horizontaal erin */
+      body.actor-active .actor .content,
+      body.cfo-active   .cfo  .content { padding: 10px 12px; gap: 8px; }
+      body.actor-active .actor .content { background: rgba(26,26,31,0.82); }
+      body.cfo-active   .cfo  .content { background: rgba(205,209,196,0.88); }
       body.actor-active .actor .nav-buttons,
       body.cfo-active   .cfo  .nav-buttons {
-        position: sticky;
-        top: 0;
-        z-index: 15;
-        padding: 10px 16px 10px;
-        margin: 0 -16px;          /* compenseer content-padding */
-        background: rgba(26,26,31,0.94);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        /* mask override: fade rechts blijft */
+        padding: 0;
+        margin: 0;
+        flex-wrap: nowrap; /* ook CFO-knoppen op één scrollbare rij */
+        /* mask: fade rechts als hint dat er meer knoppen zijn */
         -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
         mask-image: linear-gradient(to right, black 85%, transparent 100%);
-      }
-      body.cfo-active .cfo .nav-buttons {
-        background: rgba(205,209,196,0.94);
       }
 
       /* Fix 2: swipe-hint beter leesbaar — pill-achtergrond + hogere opacity */
@@ -642,6 +643,11 @@
         border-radius: 20px;
         padding: 7px 14px;
         backdrop-filter: blur(6px);
+        /* Na een paar seconden uit beeld — voorkomt botsing met de hero-tekst */
+        animation: swipeHintOut 0.6s ease 7s forwards;
+      }
+      @keyframes swipeHintOut {
+        to { opacity: 0; visibility: hidden; }
       }
       .swipe-hint-label {
         font-family: var(--font-m);
@@ -682,6 +688,14 @@
       transition: opacity .4s .15s;
       z-index: 6;
       pointer-events: none;
+      /* Pill-achtergrond voor leesbaarheid over de foto */
+      padding: 10px 16px;
+      background: rgba(26,26,31,0.60);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 3px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      max-width: 90%;
     }
     .peek span {
       font-family: var(--font-m);
@@ -709,6 +723,22 @@
       align-items: center;
     }
     .actor-peek span { color: rgba(232,197,71,0.8); }
+
+    /* Mobiel: peek als één regel in de 52px-balk, links van de NL|EN-toggle */
+    @media (max-width: 700px) {
+      .actor-peek, .cfo-peek {
+        left: 14px;
+        transform: translateY(-50%);
+        flex-direction: row;
+        gap: 7px;
+        padding: 6px 12px;
+        max-width: calc(100% - 130px);
+        overflow: hidden;
+      }
+      .actor-peek span, .cfo-peek span { font-size: 10px; }
+      .actor-peek span + span::before,
+      .cfo-peek span + span::before { content: '· '; opacity: 0.6; }
+    }
 
     /* DETAIL SECTIONS — standaard verborgen */
     .detail {
@@ -1392,6 +1422,8 @@
       font-size: 10px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
+      white-space: nowrap;
+      flex-shrink: 0;
       background: none;
       border: 1px solid;
       padding: 10px 20px;
@@ -1538,6 +1570,7 @@
     body.cfo-active   .cfo .content {
       position: sticky; top: 0; z-index: 10;
       padding: 12px 40px;
+      display: flex;
       flex-direction: row; align-items: center; flex-wrap: nowrap; gap: 8px 14px;
       max-width: none;
       backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
@@ -1567,6 +1600,12 @@
     body.actor-active .actor .content .nav-buttons,
     body.cfo-active   .cfo .content .nav-buttons {
       opacity: 1; transform: none; margin: 0;
+    }
+    /* In de strip: compacte knoppen i.p.v. 50%-brede balken */
+    body.actor-active .actor .content .nav-btn,
+    body.cfo-active   .cfo .content .nav-btn {
+      flex: 0 1 auto;
+      padding: 9px 18px;
     }
     /* Back-knop als eerste item in strip */
     body.actor-active .actor .content .back-btn,
@@ -1645,6 +1684,34 @@
     body:not(.actor-active):not(.cfo-active) .split:has(.cfo:hover)   .actor .detail {
       visibility: hidden;
       opacity: 0;
+    }
+
+    /* ── Cursor-consistentie: overal de custom cursor op desktop ──
+       (voorheen toonden lang-toggle, foto's en carousel-pijlen de systeemcursor) */
+    @media (min-width: 701px) {
+      a, button,
+      .lang-toggle, .photo-thumb, .carousel-btn,
+      .lightbox, .lightbox-close, .agenda-tickets { cursor: none; }
+    }
+
+    /* ── Zichtbare focus voor toetsenbordgebruikers ── */
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 2px solid var(--yellow);
+      outline-offset: 2px;
+    }
+    .cfo a:focus-visible, .cfo button:focus-visible, .cfo input:focus-visible {
+      outline-color: var(--blue);
+    }
+
+    /* ── Reduced motion: animaties vrijwel uit, eerste hero-foto direct zichtbaar ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .actor-slide { animation: none !important; }
+      .actor-slide:first-child { opacity: 1; }
     }
 
   </style>
@@ -1935,7 +2002,9 @@
       <!-- hint-links vervangen door nav-buttons in .content -->
       <!-- Peek: zichtbaar als CFO-kant gehovered wordt / actief is -->
       <div class="peek actor-peek">
-        <span>Acteur · Maker · Zanger</span>
+        <span data-i18n="actor.role0">Acteur</span>
+        <span data-i18n="actor.role1">Maker</span>
+        <span data-i18n="actor.role2">Zanger</span>
       </div>
     </div>
 
@@ -1950,7 +2019,7 @@
           <span data-i18n="cfo.role0">Fractional CFO</span>
           <span data-i18n="cfo.role1">Deal Advisor</span>
         </span>
-        <h2><span data-i18n="cfo.h2">Verhalen</span><br><em data-i18n="cfo.h2em">Die kloppen</em></h2>
+        <h2><span data-i18n="cfo.h2">Verhalen</span><br><em data-i18n="cfo.h2em">die kloppen.</em></h2>
         <p class="body" data-i18n="cfo.body">Groei financieren, overnames structureren, organisaties klaarstomen. Ex-PwC · ex-VC · 9+ jaar ervaring.</p>
         <nav class="nav-buttons" aria-label="Adviseur secties">
           <a href="#cfo-profiel" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav0">Profiel</a>
@@ -2090,7 +2159,8 @@
       <!-- hint-links vervangen door nav-buttons in .content -->
       <!-- Peek: zichtbaar als acteur-kant gehovered wordt / actief is -->
       <div class="peek cfo-peek">
-        <span>Fractional CFO · Deal Advisor</span>
+        <span data-i18n="cfo.role0">Fractional CFO</span>
+        <span data-i18n="cfo.role1">Deal Advisor</span>
       </div>
     </div>
 
@@ -2169,6 +2239,7 @@
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
       dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      document.body.classList.add('has-cursor');
     });
     (function loop() {
       ring.style.left = mx + 'px'; ring.style.top = my + 'px';
@@ -2304,9 +2375,14 @@
       if (getState() === 'cfo') body.classList.add('on-cfo');
       body.classList.remove('cursor-big');
     });
-    document.querySelectorAll('.btn, .back-btn').forEach(el => {
-      el.addEventListener('mouseenter', () => body.classList.add('cursor-big'));
-      el.addEventListener('mouseleave', () => body.classList.remove('cursor-big'));
+    /* Delegatie i.p.v. per-element binding: werkt ook voor later geïnjecteerde
+       content (agenda-items) en dekt alle interactieve elementen */
+    const CURSOR_BIG_SEL = 'a, button, .photo-thumb, .carousel-btn, .lang-toggle';
+    document.addEventListener('mouseover', e => {
+      if (e.target.closest(CURSOR_BIG_SEL)) body.classList.add('cursor-big');
+    });
+    document.addEventListener('mouseout', e => {
+      if (e.target.closest(CURSOR_BIG_SEL)) body.classList.remove('cursor-big');
     });
 
     /* ── Terug-knoppen ── */
@@ -2532,7 +2608,7 @@
         'actor.s.nl.body': 'Updates over nieuwe voorstellingen, projecten en wat er speelt. Geen spam — uitschrijven kan altijd.',
         /* CFO hero */
         'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
-        'cfo.h2': 'Verhalen', 'cfo.h2em': 'Die kloppen',
+        'cfo.h2': 'Verhalen', 'cfo.h2em': 'die kloppen.',
         'cfo.body': 'Groei financieren, overnames structureren, organisaties klaarstomen. Ex-PwC · ex-VC · 9+ jaar ervaring.',
         'cfo.nav0': 'Profiel', 'cfo.nav1': 'Diensten', 'cfo.nav2': 'Aanpak',
         'cfo.nav3': 'Ervaring', 'cfo.nav4': 'Contact',
@@ -2621,7 +2697,7 @@
         'actor.s.nl.body': 'Updates on new productions, projects and what\'s happening. No spam — unsubscribe anytime.',
         /* CFO hero */
         'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
-        'cfo.h2': 'Stories', 'cfo.h2em': 'That hold.',
+        'cfo.h2': 'Stories', 'cfo.h2em': 'that hold.',
         'cfo.body': 'Financing growth, structuring acquisitions, preparing organisations for what\'s next. Ex-PwC · ex-VC · 9+ years.',
         'cfo.nav0': 'Profile', 'cfo.nav1': 'Services', 'cfo.nav2': 'Approach',
         'cfo.nav3': 'Experience', 'cfo.nav4': 'Contact',
@@ -2684,8 +2760,10 @@
       try { localStorage.setItem('lang', lang); } catch(e) {}
     }
 
-    // Init: vorige taalvoorkeur of standaard NL
+    // Init: ?lang= URL-parameter (hreflang deep-link) > vorige voorkeur > NL
     const _savedLang = (function() {
+      const urlLang = new URLSearchParams(window.location.search).get('lang');
+      if (urlLang === 'nl' || urlLang === 'en') return urlLang;
       try { return localStorage.getItem('lang'); } catch(e) { return null; }
     })() || 'nl';
     setLanguage(_savedLang);
