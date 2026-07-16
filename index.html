@@ -396,21 +396,6 @@
     .actor .content h2 em { color: var(--yellow); }
     .cfo   .content h2 em { color: var(--blue-text); }
 
-    .role-tag {
-      font-family: var(--font-m);
-      font-size: 11px; letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: rgba(232,197,71,0.5);
-      margin-top: -10px; margin-bottom: 22px;
-    }
-
-    .name-sub {
-      font-family: var(--font-d);
-      font-size: 15px; font-style: italic;
-      color: var(--mid);
-      margin-bottom: 10px; margin-top: -4px;
-    }
-
     .body {
       font-family: var(--font-d); font-size: 14.5px;
       line-height: 1.65; margin-bottom: 28px; max-width: 320px;
@@ -425,8 +410,6 @@
       padding: 16px 32px; transition: background .25s, color .25s;
       cursor: none;
     }
-    .btn-arr { transition: transform .3s; display: inline-block; }
-    .btn:hover .btn-arr { transform: translateX(6px); }
     .actor .btn { background: var(--yellow); color: var(--dark); }
     .actor .btn:hover { background: var(--white); }
     .cfo   .btn { background: var(--dark); color: var(--light); }
@@ -457,40 +440,9 @@
     .cfo .nav-btn:hover { background: var(--white); color: var(--dark); border-color: var(--white); }
     /* nav-buttons altijd zichtbaar — hover-show regels niet meer nodig */
 
-    /* CREDIBILITY STATS */
-    .credibility-bar {
-      display: flex;
-      gap: 28px;
-      margin-top: 20px;
-      opacity: 0; transform: translateY(8px);
-      transition: opacity .35s .15s, transform .35s .15s;
-    }
-    .actor .credibility-bar { justify-content: flex-start; flex-wrap: wrap; align-items: flex-end; gap: 20px; }
-    .cred-specs { width: 100%; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-    .cfo .credibility-bar { justify-content: flex-start; }
+    /* CREDIBILITY STATS *
     /* CFO nav-buttons links uitlijnen (content is ook left-aligned) */
     .cfo .nav-buttons { flex-wrap: wrap; justify-content: flex-start; }
-    .cred-item { text-align: left; }
-    .cred-num {
-      display: block;
-      font-family: var(--font-d);
-      font-size: 36px;
-      font-weight: 700;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .cred-num--sm { font-size: 22px; line-height: 1.1; }
-    .cred-label {
-      display: block;
-      font-family: var(--font-m);
-      font-size: 10px;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-    .cfo .cred-num { color: var(--blue-text); }
-    .cfo .cred-label { color: rgba(48,50,61,0.5); }
-    .actor .cred-num { color: var(--yellow); }
-    .actor .cred-label { color: rgba(232,197,71,0.5); }
     /* credibility-bar hover-show verwijderd — stats staan nu in detail-secties */
 
     /* DIVIDER */
@@ -503,34 +455,7 @@
     }
     body:not(.actor-active):not(.cfo-active) .split:has(.panel:hover) .divider { opacity: 0; }
 
-    /* HINTS */
-    .hint {
-      position: absolute; bottom: 26px; font-family: var(--font-m);
-      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
-      display: flex; align-items: center; gap: 9px;
-      opacity: 0; transition: opacity .3s .2s; z-index: 6;
-    }
-    .hint-line { width: 22px; height: 1px; }
-    .actor .hint { left: 56px; color: rgba(232,197,71,0.8); }
-    .actor .hint-line { background: rgba(232,197,71,0.3); }
-    body:not(.actor-active):not(.cfo-active) .actor:hover .hint { opacity: 1; }
-    .cfo .hint { right: 56px; flex-direction: row-reverse; color: rgba(77,80,97,0.85); }
-    .cfo .hint-line { background: rgba(77,80,97,0.3); }
-    body:not(.actor-active):not(.cfo-active) .cfo:hover .hint { opacity: 1; }
-
-    .hint-link {
-      text-decoration: none;
-      color: inherit;
-      transition: opacity 0.2s;
-      cursor: none;
-    }
-    .hint-link:hover { opacity: 1; }
-    .actor .hint-link:hover { color: var(--yellow); }
-    .cfo .hint-link:hover { color: var(--dark); }
-    .hint-sep {
-      opacity: 0.5;
-      margin: 0 2px;
-    }
+    /* HINTS *
 
     /* LOAD */
     @keyframes fadeUp {
@@ -539,24 +464,6 @@
     }
     .actor .content { animation: fadeUp .8s var(--ease) .15s both; }
     .cfo   .content { animation: fadeUp .8s var(--ease) .35s both; }
-    .badge {
-      position: absolute; left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 30; pointer-events: none;
-      animation: fadeUp .6s var(--ease) .55s both;
-      transition: opacity .35s;
-    }
-    body:not(.actor-active):not(.cfo-active) .split:has(.panel:hover) .badge { opacity: 0; }
-    .badge-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom,
-        transparent,
-        rgba(232,197,71,0.5) 30%,
-        rgba(92,128,188,0.6) 70%,
-        transparent
-      );
-    }
 
     /* Swipe-hint standaard verborgen (desktop); media query overschrijft dit */
     .mobile-swipe-hint { display: none; }
@@ -579,10 +486,7 @@
       .content { padding: 28px 16px; max-width: 100%; overflow-wrap: break-word; }
       .cfo .content { text-align: left; align-self: flex-start; }
       .cfo .body { margin-left: 0; }
-      .credibility-bar { text-align: left; }
       .divider, .badge, #cur-dot, #cur-ring { display: none; }
-      .credibility-bar { opacity: 1; transform: none; }
-      .hint { opacity: 1; }
 
       /* Fix 3: active state → column layout, inactief paneel als BOVENSTE balk */
       body.actor-active .split,
@@ -910,33 +814,7 @@
     .cfo .exp-org { color: var(--mid); }
     .exp-content { flex: 1; min-width: 0; }
 
-    /* CTA block */
-    .detail-cta {
-      padding: 40px;
-      margin-top: 16px;
-      text-align: center;
-    }
-    .cfo .detail-cta {
-      background: var(--dark);
-    }
-    .detail-cta-text {
-      font-family: var(--font-d);
-      font-size: clamp(16px, 1.7vw, 20px);
-      font-style: italic;
-      margin-bottom: 24px;
-    }
-    .cfo .detail-cta-text { color: var(--light); }
-    .detail-cta .btn {
-      display: inline-flex;
-    }
-    .cfo .detail-cta .btn {
-      background: var(--blue);
-      color: var(--white);
-    }
-    .cfo .detail-cta .btn:hover {
-      background: var(--yellow);
-      color: var(--dark);
-    }
+    /* CTA block *
 
     /* GCal agenda-items */
     .agenda-item {
@@ -1045,23 +923,7 @@
       border-color: rgba(48,50,61,0.15);
     }
 
-    /* Contact subtitel */
-    .detail-cta-sub {
-      font-family: var(--font-d);
-      font-size: clamp(13px, 1.2vw, 14.5px);
-      max-width: 520px;
-      margin: 0 auto 20px;
-    }
-    .cfo .detail-cta-sub { color: rgba(205,209,196,0.7); }
-
-    .detail-cta-alt {
-      font-family: var(--font-d);
-      font-size: clamp(12px, 1.15vw, 13.5px);
-      max-width: 520px;
-      margin: 20px auto 0;
-      line-height: 1.6;
-    }
-    .cfo .detail-cta-alt { color: rgba(205,209,196,0.5); }
+    /* Contact subtitel *
     .cta-link {
       text-decoration: none;
       border-bottom: 1px solid;
@@ -1076,18 +938,7 @@
       border-color: var(--yellow);
     }
 
-    /* Showreel embed */
-    .calendar-embed {
-      width: 100%;
-      margin: 16px 0 8px;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .calendar-embed iframe {
-      width: 100%;
-      height: 300px;
-      border: none;
-    }
+    /* Showreel embed *
     .showreel {
       position: relative;
       width: 100%;
@@ -1142,12 +993,7 @@
     .actor .exp-org { color: rgba(242,243,239,0.5); }
     .actor .exp-desc { color: rgba(242,243,239,0.4); }
 
-    /* Foto-grid */
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
+    /* Foto-grid *
     .photo-thumb {
       width: 100%;
       aspect-ratio: 3 / 4;
@@ -1210,23 +1056,7 @@
     .carousel-prev { left: 4px; }
     .carousel-next { right: 4px; }
 
-    /* Editorial photo grid (Kunst) */
-    .photo-grid-editorial {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .photo-wide {
-      grid-column: span 2;
-      aspect-ratio: 16 / 9;
-    }
-    .photo-editorial {
-      aspect-ratio: 4 / 5;
-      transition: filter 0.5s, transform 0.5s;
-    }
-    .photo-editorial:hover {
-      transform: scale(1.015);
-    }
+    /* Editorial photo grid (Kunst) *
 
     /* Lightbox */
     .lightbox {
@@ -1261,34 +1091,14 @@
     }
     .lightbox-close:hover { color: var(--white); }
 
-    /* Actor CTA + outline buttons */
-    .actor .detail-cta { background: rgba(232,197,71,0.08); }
-    .actor .detail-cta-text { color: var(--white); }
+    /* Actor CTA + outline buttons *
     .actor-cta-h2 {
       font-size: clamp(48px, 5.5vw, 82px) !important;
       line-height: 0.92 !important;
       margin-bottom: 28px !important;
     }
-    /* Stats-blok in detail-secties (donkere box) */
-    .stats-block {
-      display: flex; gap: 20px 32px; flex-wrap: wrap;
-      justify-content: center;
-      max-width: 520px;
-      margin: 22px auto 0;
-      padding: 18px 22px;
-      background: rgba(26,26,31,0.55);
-      border-left: 2px solid rgba(232,197,71,0.40);
-      border-radius: 2px;
-    }
-    .stats-block .cred-num  { font-size: 26px; color: var(--yellow); }
-    .stats-block .cred-label { color: rgba(242,243,239,0.50); }
-    /* CFO variant */
-    .stats-block--cfo {
-      background: rgba(48,50,61,0.50);
-      border-left-color: rgba(92,128,188,0.50);
-    }
-    .stats-block--cfo .cred-num  { font-size: 24px; color: var(--blue); }
-    .stats-block--cfo .cred-label { color: rgba(48,50,61,0.55); }
+    /* Stats-blok in detail-secties (donkere box) *
+    /* CFO variant *
 
     /* Casting specs grid */
     .casting-specs {
@@ -1338,19 +1148,6 @@
       background: var(--blue);
       color: var(--white);
     }
-    .btn-outline {
-      background: transparent;
-      border: 1px solid;
-    }
-    .actor .btn-outline {
-      background: transparent;
-      color: var(--yellow);
-      border-color: rgba(232,197,71,0.4);
-    }
-    .actor .btn-outline:hover {
-      background: var(--yellow);
-      color: var(--dark);
-    }
     .contact-links {
       display: flex;
       flex-wrap: wrap;
@@ -1378,22 +1175,6 @@
     }
     .newsletter-input::placeholder { color: rgba(242,243,239,0.35); }
     .newsletter-input:focus { border-color: var(--yellow); background: rgba(255,255,255,0.10); }
-    .newsletter-note {
-      margin-top: 10px;
-      font-family: var(--font-m);
-      font-size: 11px;
-      opacity: 0.40;
-      letter-spacing: 0.03em;
-    }
-    .newsletter-success {
-      display: none;
-      margin-top: 14px;
-      font-family: var(--font-m);
-      font-size: 13px;
-      color: var(--yellow);
-      letter-spacing: 0.02em;
-    }
-    .newsletter-success.visible { display: block; }
     /* CFO (licht) variant */
     .cfo .newsletter-input {
       border-color: rgba(92,128,188,0.35);
@@ -1402,50 +1183,10 @@
     }
     .cfo .newsletter-input::placeholder { color: rgba(48,50,61,0.35); }
     .cfo .newsletter-input:focus { border-color: var(--blue); background: rgba(48,50,61,0.09); }
-    .cfo .newsletter-note { color: var(--dark); }
-    .cfo .newsletter-success { color: var(--blue); }
 
-    /* Upcoming shows */
-    .upcoming-item {
-      padding: 16px 0;
-      border-bottom: 1px solid rgba(232,197,71,0.12);
-      display: flex;
-      gap: 20px;
-      align-items: baseline;
-      text-align: left;
-      max-width: 560px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .upcoming-item:last-child { border-bottom: none; }
-    .upcoming-date {
-      font-family: var(--font-m);
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--yellow);
-      min-width: 80px;
-    }
-    .upcoming-title {
-      font-family: var(--font-d);
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--white);
-    }
-    .upcoming-venue {
-      font-family: var(--font-d);
-      font-size: 13.5px;
-      font-style: italic;
-      color: rgba(242,243,239,0.5);
-      margin-left: auto;
-    }
+    /* Upcoming shows *
 
-    /* Opening shot */
-    .hero-shot {
-      width: 100%;
-      object-fit: cover;
-      margin-bottom: 56px;
-    }
+    /* Opening shot *
 
     /* Divider lijn in detail */
     .detail-divider {
@@ -1461,14 +1202,9 @@
       .service-grid { grid-template-columns: 1fr; }
       .exp-item { flex-direction: column; gap: 4px; align-items: flex-start; }
       .exp-period { width: auto; }
-      .detail-cta { padding: 32px 24px; }
       .detail-portrait { max-width: 100%; }
-      .photo-grid { grid-template-columns: repeat(2, 1fr); }
-      .photo-grid-editorial { grid-template-columns: 1fr; }
-      .photo-wide { grid-column: span 1; }
       .showreel { max-width: 100%; }
       .contact-links { flex-direction: column; align-items: center; }
-      .upcoming-item { flex-direction: column; gap: 4px; }
     }
 
     /* BACK BUTTON — alleen zichtbaar in active state */
@@ -1719,10 +1455,6 @@
     body.cfo-active   .badge {
       opacity: 0;
       pointer-events: none;
-    }
-    body.actor-active .hint,
-    body.cfo-active   .hint {
-      opacity: 0;
     }
 
     /* CFO label donkerder in active state voor leesbaarheid */
@@ -2052,7 +1784,7 @@
                 </div>
                 <div id="success-message" class="sib-form-message-panel" style="display:none; margin-top:10px;">
                   <div class="sib-form-message-panel__text sib-form-message-panel__text--center">
-                    <span class="sib-form-message-panel__inner-text">✓ Aangemeld! Controleer je inbox voor de bevestiging.</span>
+                    <span class="sib-form-message-panel__inner-text" data-i18n="ui.nl.success">✓ Check je inbox voor de bevestigingsmail. Niets ontvangen? Mail me dan even.</span>
                   </div>
                 </div>
                 <div id="sib-container" class="sib-container--large sib-container--vertical">
@@ -2062,7 +1794,7 @@
                     <div class="newsletter-row">
                       <input class="input newsletter-input" type="text" id="EMAIL" name="EMAIL"
                              placeholder="jouw@email.nl" data-required="true" required autocomplete="email">
-                      <button type="submit" class="sib-form-block__button btn" data-ga="newsletter_actor"><i class="fa-regular fa-paper-plane"></i> Aanmelden</button>
+                      <button type="submit" class="sib-form-block__button btn" data-ga="newsletter_actor"><i class="fa-regular fa-paper-plane"></i> <span data-i18n="ui.nl.submit">Aanmelden</span></button>
                     </div>
                     <label class="entry__error entry__error--primary" style="display:none; font-size:12px; font-family:var(--font-m); color:#ff9999; margin-top:6px;"></label>
                     <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none" aria-hidden="true">
@@ -2100,6 +1832,7 @@
         <nav class="nav-buttons" aria-label="Adviseur secties">
           <a href="#cfo-profiel" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav0">Profiel</a>
           <a href="#cfo-diensten" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav1">Diensten</a>
+          <a href="#cfo-aanpak" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav2">Aanpak</a>
           <a href="#cfo-ervaring" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav3">Ervaring</a>
           <a href="#cfo-contact" class="nav-btn" data-panel="cfo" data-i18n="cfo.nav4">Contact</a>
         </nav>
@@ -2303,8 +2036,9 @@
       container.innerHTML = items.map(function(ev) {
         const start = ev.start.dateTime || ev.start.date;
         const date  = new Date(start);
-        const label = date.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })
-          + (ev.start.dateTime ? ' · ' + date.toLocaleTimeString('nl-NL', { hour: '2-digit', minute: '2-digit' }) : '');
+        const loc   = document.documentElement.lang === 'en' ? 'en-GB' : 'nl-NL';
+        const label = date.toLocaleDateString(loc, { day: 'numeric', month: 'long', year: 'numeric' })
+          + (ev.start.dateTime ? ' · ' + date.toLocaleTimeString(loc, { hour: '2-digit', minute: '2-digit' }) : '');
         var ticketUrl = '';
         if (ev.description) {
           var m = ev.description.match(/https?:\/\/[^\s<"]+/);
@@ -2362,6 +2096,10 @@
 
     /* true zolang de huidige history-entry door activate() gepusht is */
     let pushedByActivate = false;
+    /* re-entry-guard: voorkomt dat dubbel-ESC twee keer history.back() doet */
+    let closing = false;
+    let deactivateTimer = null;
+    let navScrollTimer = null;
 
     /* Lazy-hydratie: carousel-foto's laden pas wanneer het acteurpaneel opent */
     function hydrateImages(rootSel) {
@@ -2387,7 +2125,14 @@
 
     function activate(side, opts) {
       opts = opts || {};
-      if (getState() === side) return;
+      const prev = getState();
+      if (prev === side) return;
+
+      // Activatie annuleert een eventueel lopende sluit-animatie
+      closing = false;
+      clearTimeout(deactivateTimer);
+      actorPanel.classList.remove('panel-deactivating');
+      cfoPanel.classList.remove('panel-deactivating');
 
       body.classList.remove('actor-active', 'cfo-active');
       body.classList.add(side + '-active');
@@ -2414,6 +2159,9 @@
       } else if (opts.replace) {
         history.replaceState({ side: side }, '', '#' + side);
         pushedByActivate = false;
+      } else if (prev !== 'neutral') {
+        // Paneel-switch: vervang de entry, anders opent sluiten straks het vórige paneel
+        history.replaceState({ side: side }, '', '#' + side);
       } else {
         history.pushState({ side: side }, '', '#' + side);
         pushedByActivate = true;
@@ -2435,15 +2183,19 @@
     function deactivate(fromPopstate) {
       const current = getState();
       if (current === 'neutral') return;
+      if (closing && !fromPopstate) return; // dubbel-ESC/dubbelklik: al bezig met sluiten
 
       /* Als de huidige entry door activate() gepusht is, sluiten we via
          history.back(): dan is er geen fantoom-entry en heropent
          browser-back het paneel niet. De popstate-handler doet de rest. */
       if (!fromPopstate && pushedByActivate) {
+        closing = true;
         history.back();
         return;
       }
+      closing = true;
       pushedByActivate = false;
+      clearTimeout(navScrollTimer);
 
       track('panel_deactivate', { panel: current });
 
@@ -2456,13 +2208,14 @@
       // Trigger exit-animatie: nav-strip schuift omhoog uit beeld
       panel.classList.add('panel-deactivating');
 
-      setTimeout(() => {
+      deactivateTimer = setTimeout(() => {
         panel.classList.remove('panel-deactivating');
         panel.scrollTop = 0;
         body.classList.remove('actor-active', 'cfo-active', 'on-cfo');
         // Cursor kan nog over het CFO-paneel hangen — mouseenter vuur niet opnieuw
         if (cfoPanel.matches(':hover')) body.classList.add('on-cfo');
         announce('neutral');
+        closing = false;
         // Bij browser-back staat de history al goed — geen fantoom-entry pushen
         if (!fromPopstate) history.pushState({ side: 'neutral' }, '', window.location.pathname);
 
@@ -2620,7 +2373,8 @@
         if (getState() !== panelSide) {
           activate(panelSide);
           // Wacht tot panel open is én max-height animatie klaar is, dan scroll
-          setTimeout(() => scrollToSection(panelEl, target), 800);
+          clearTimeout(navScrollTimer);
+          navScrollTimer = setTimeout(() => scrollToSection(panelEl, target), 800);
         } else {
           scrollToSection(panelEl, target);
         }
@@ -2846,6 +2600,11 @@
         /* Gedeelde UI */
         'ui.back': '← Terug',
         'ui.swipe': 'swipe',
+        'ui.nl.placeholder': 'jouw@email.nl',
+        'ui.nl.submit': 'Aanmelden',
+        'ui.nl.success': '✓ Check je inbox voor de bevestigingsmail. Niets ontvangen? Mail me dan even.',
+        'ui.nl.invalid': 'Vul een geldig e-mailadres in.',
+        'ui.nl.failed': 'Aanmelding mislukt. Probeer het later opnieuw.',
       },
 
       en: {
@@ -2869,7 +2628,7 @@
         'actor.s.showreel.play': 'Play showreel',
         'actor.s.showreel.watch': 'Watch on YouTube',
         'actor.s.showreel.spec.height': 'Height', 'actor.s.showreel.spec.voice': 'Voice',
-        'actor.s.showreel.spec.hair': 'Hair', 'actor.s.showreel.spec.hair.val': 'Dark blonde',
+        'actor.s.showreel.spec.hair': 'Hair', 'actor.s.showreel.spec.hair.val': 'Dark blond',
         'actor.s.showreel.spec.eyes': 'Eyes', 'actor.s.showreel.spec.eyes.val': 'Blue',
         'actor.s.showreel.spec.lang': 'Languages',
         'actor.s.showreel.spec.lang0': 'Dutch', 'actor.s.showreel.spec.lang1': 'English', 'actor.s.showreel.spec.lang2': 'German',
@@ -2891,7 +2650,7 @@
         'actor.s.nl.body': 'Updates on new productions, projects and what\'s happening. No spam — unsubscribe anytime.',
         /* CFO hero */
         'cfo.role0': 'Fractional CFO', 'cfo.role1': 'Deal Advisor',
-        'cfo.h2': 'Stories', 'cfo.h2em': 'that hold.',
+        'cfo.h2': 'Stories', 'cfo.h2em': 'that add up.',
         'cfo.body': 'Financing growth, structuring acquisitions, preparing organisations for what\'s next. Ex-PwC · ex-VC · 9+ years.',
         'cfo.nav0': 'Profile', 'cfo.nav1': 'Services', 'cfo.nav2': 'Approach',
         'cfo.nav3': 'Experience', 'cfo.nav4': 'Contact',
@@ -2903,7 +2662,7 @@
         /* CFO detail — diensten */
         'cfo.s.diensten.label': 'What I do',
         'cfo.s.diensten.c0.title': 'Fractional CFO',
-        'cfo.s.diensten.c0.text': 'Financial leadership on a flexible basis. Budgeting, forecasting, reporting and board-level sparring.',
+        'cfo.s.diensten.c0.text': 'Financial leadership on a flexible basis. Budgeting, forecasting, reporting, and acting as a sparring partner at board level.',
         'cfo.s.diensten.c1.title': 'Deal Advisory',
         'cfo.s.diensten.c1.text': 'Guidance through acquisitions, mergers and divestments. From due diligence to closing.',
         'cfo.s.diensten.c2.title': 'Growth Financing',
@@ -2918,11 +2677,11 @@
         'cfo.s.diensten.h2': 'From data', 'cfo.s.diensten.h2em': 'to direction',
         /* CFO detail — aanpak */
         'cfo.s.aanpak.label': 'How I think',
-        'cfo.s.aanpak.h2': 'Stories', 'cfo.s.aanpak.h2em': 'that hold.',
+        'cfo.s.aanpak.h2': 'Stories', 'cfo.s.aanpak.h2em': 'that add up.',
         'cfo.s.aanpak.quote': 'Numbers don\'t move people. Context does.',
-        'cfo.s.aanpak.p1': 'Good financial decisions don\'t start with a spreadsheet. They start with a story that holds.',
-        'cfo.s.aanpak.p2': 'My background as an actor makes me a better financial professional — because I know how to translate complex data into something people can act on. A business case that\'s understood. A strategy that\'s owned. That\'s the difference between advice that ends up in a drawer and a process that actually moves things forward.',
-        'cfo.s.aanpak.p3': 'I\'m data-driven, move fast and bring in specialists from my network when needed. The lines stay short.',
+        'cfo.s.aanpak.p1': 'Good financial decisions don\'t start with a spreadsheet. They start with a story that adds up.',
+        'cfo.s.aanpak.p2': 'My background as an actor makes me a better financial professional — because I know how to translate complex data into something people can act on. A business case that\'s understood. A strategy people get behind. That\'s the difference between advice that ends up in a drawer and a process that actually moves things forward.',
+        'cfo.s.aanpak.p3': 'I\'m data-driven, move fast, and bring in specialists from my network when needed — you always deal with me directly.',
         /* CFO detail — ervaring */
         'cfo.s.ervaring.label': 'Background',
         'cfo.s.ervaring.h2': 'Extensive', 'cfo.s.ervaring.h2em': 'deal experience',
@@ -2938,6 +2697,11 @@
         /* Gedeelde UI */
         'ui.back': '← Back',
         'ui.swipe': 'swipe',
+        'ui.nl.placeholder': 'your@email.com',
+        'ui.nl.submit': 'Subscribe',
+        'ui.nl.success': '✓ Check your inbox for the confirmation email. Nothing there? Just drop me a line.',
+        'ui.nl.invalid': 'Please enter a valid email address.',
+        'ui.nl.failed': 'Subscription failed. Please try again later.',
       }
     };
 
@@ -2948,6 +2712,11 @@
         const key = el.dataset.i18n;
         if (t[key] !== undefined) el.textContent = t[key];
       });
+      // Formulier-attributen die niet via textContent lopen
+      const emailInput = document.getElementById('EMAIL');
+      if (emailInput) emailInput.placeholder = t['ui.nl.placeholder'];
+      const localeField = document.querySelector('#sib-form input[name="locale"]');
+      if (localeField) localeField.value = lang;
       document.querySelectorAll('.lang-opt').forEach(function(btn) {
         const active = btn.dataset.lang === lang;
         btn.classList.toggle('active', active);
@@ -2984,9 +2753,10 @@
         var btn       = form.querySelector('button[type="submit"]');
         var errorTxt  = errorEl ? errorEl.querySelector('.sib-form-message-panel__inner-text') : null;
 
+        var t = (typeof I18N !== 'undefined' && I18N[document.documentElement.lang]) || {};
         var email = emailInput ? emailInput.value.trim() : '';
         if (!email || !/\S+@\S+\.\S+/.test(email)) {
-          if (errorTxt) errorTxt.textContent = 'Vul een geldig e-mailadres in.';
+          if (errorTxt) errorTxt.textContent = t['ui.nl.invalid'] || 'Vul een geldig e-mailadres in.';
           if (errorEl)   errorEl.style.display   = 'block';
           if (successEl) successEl.style.display = 'none';
           return;
@@ -3009,8 +2779,10 @@
             if (emailInput) emailInput.value = '';
           })
           .catch(function() {
+            /* Vuurt alleen bij netwerkfouten: no-cors maakt serverfouten onleesbaar,
+               vandaar de voorzichtige succesboodschap (double-opt-in-model) */
             if (btn) btn.disabled = false;
-            if (errorTxt) errorTxt.textContent = 'Aanmelding mislukt. Probeer het later opnieuw.';
+            if (errorTxt) errorTxt.textContent = t['ui.nl.failed'] || 'Aanmelding mislukt. Probeer het later opnieuw.';
             if (errorEl) errorEl.style.display = 'block';
           });
       });
