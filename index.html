@@ -165,7 +165,7 @@
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com"/>
   <link rel="dns-prefetch" href="https://sibforms.com"/>
   <link rel="dns-prefetch" href="https://www.googletagmanager.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous"/>
   <!-- Non-blocking: stylet alleen het nieuwsbriefformulier diep in het acteur-detail -->
   <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css" media="print" onload="this.media='all'"/>
@@ -187,7 +187,8 @@
       --blue-text: #34528C; /* donkerder blauw voor tekst op licht: 4,95:1 op --light */
       --light:   #CDD1C4;
       --white:   #F2F3EF;
-      --font-d:  'Playfair Display', Georgia, serif;
+      --font-d:  'Playfair Display', Georgia, serif;      /* display: koppen & quotes */
+      --font-t:  'IBM Plex Sans', system-ui, sans-serif;  /* tekst: broodtekst & microcopy */
       --font-m:  'IBM Plex Mono', monospace;
       --ease:    cubic-bezier(0.77, 0, 0.175, 1);
       --dur:     0.65s;
@@ -397,11 +398,11 @@
     .cfo   .content h2 em { color: var(--blue-text); }
 
     .body {
-      font-family: var(--font-d); font-size: 14.5px;
-      line-height: 1.65; margin-bottom: 28px; max-width: 320px;
+      font-family: var(--font-t); font-size: 15px;
+      line-height: 1.65; margin-bottom: 28px; max-width: 340px;
     }
-    .actor .body { color: rgba(242,243,239,0.65); }
-    .cfo   .body { color: rgba(48,50,61,0.70); max-width: 420px; }
+    .actor .body { color: rgba(242,243,239,0.8); }
+    .cfo   .body { color: rgba(48,50,61,0.8); max-width: 420px; }
 
     .btn {
       display: inline-flex; align-items: center; gap: 10px;
@@ -440,7 +441,7 @@
     .cfo .nav-btn:hover { background: var(--white); color: var(--dark); border-color: var(--white); }
     /* nav-buttons altijd zichtbaar — hover-show regels niet meer nodig */
 
-    /* CREDIBILITY STATS *
+    /* CREDIBILITY STATS */
     /* CFO nav-buttons links uitlijnen (content is ook left-aligned) */
     .cfo .nav-buttons { flex-wrap: wrap; justify-content: flex-start; }
     /* credibility-bar hover-show verwijderd — stats staan nu in detail-secties */
@@ -455,7 +456,7 @@
     }
     body:not(.actor-active):not(.cfo-active) .split:has(.panel:hover) .divider { opacity: 0; }
 
-    /* HINTS *
+    /* HINTS */
 
     /* LOAD */
     @keyframes fadeUp {
@@ -686,8 +687,8 @@
       transform: translateY(24px);
       transition: opacity 0.4s var(--ease) 0.15s, transform 0.5s var(--ease) 0.1s;
     }
-    .actor .detail-inner { color: rgba(242,243,239,0.65); font-family: var(--font-d); font-size: clamp(13px, 1.2vw, 14.5px); line-height: 1.65; }
-    .cfo   .detail-inner { color: rgba(48,50,61,0.70); font-family: var(--font-d); font-size: clamp(13px, 1.2vw, 14.5px); line-height: 1.65; }
+    .actor .detail-inner { color: rgba(242,243,239,0.75); font-family: var(--font-t); font-size: clamp(13px, 1.2vw, 14.5px); line-height: 1.65; }
+    .cfo   .detail-inner { color: rgba(48,50,61,0.8); font-family: var(--font-t); font-size: clamp(13px, 1.2vw, 14.5px); line-height: 1.65; }
 
     /* DETAIL CONTENT — secties en elementen */
     .detail-section {
@@ -727,8 +728,8 @@
     .actor .detail-h2 em { color: var(--yellow); }
 
     .detail-text {
-      font-family: var(--font-d);
-      font-size: clamp(14px, 1.3vw, 15px);
+      font-family: var(--font-t);
+      font-size: clamp(14.5px, 1.3vw, 15.5px);
       line-height: 1.7;
       max-width: 520px;
       margin-left: auto;
@@ -736,8 +737,8 @@
       margin-bottom: 24px;
       text-align: left; /* meerregelige broodtekst niet centreren */
     }
-    .cfo .detail-text { color: rgba(48,50,61,0.75); }
-    .actor .detail-text { color: rgba(242,243,239,0.6); }
+    .cfo .detail-text { color: rgba(48,50,61,0.82); }
+    .actor .detail-text { color: rgba(242,243,239,0.78); }
 
     /* Service cards */
     .service-grid {
@@ -768,11 +769,11 @@
     }
     .cfo .service-card-title { color: var(--dark); }
     .service-card-text {
-      font-family: var(--font-d);
-      font-size: clamp(12px, 1.15vw, 13.5px);
+      font-family: var(--font-t);
+      font-size: clamp(13px, 1.15vw, 14px);
       line-height: 1.6;
     }
-    .cfo .service-card-text { color: rgba(48,50,61,0.6); }
+    .cfo .service-card-text { color: rgba(48,50,61,0.78); }
 
     /* Experience timeline */
     .exp-item {
@@ -807,14 +808,14 @@
     }
     .cfo .exp-role { color: var(--dark); }
     .exp-org {
-      font-family: var(--font-d);
+      font-family: var(--font-t);
       font-size: clamp(12px, 1.15vw, 13.5px);
       font-style: italic;
     }
     .cfo .exp-org { color: var(--mid); }
     .exp-content { flex: 1; min-width: 0; }
 
-    /* CTA block *
+    /* CTA block */
 
     /* GCal agenda-items */
     .agenda-item {
@@ -888,12 +889,12 @@
 
     /* Ervaring beschrijving */
     .exp-desc {
-      font-family: var(--font-d);
-      font-size: clamp(12px, 1.1vw, 13px);
+      font-family: var(--font-t);
+      font-size: clamp(12.5px, 1.1vw, 13.5px);
       line-height: 1.6;
       margin-top: 4px;
     }
-    .cfo .exp-desc { color: rgba(48,50,61,0.55); }
+    .cfo .exp-desc { color: rgba(48,50,61,0.7); }
 
     /* Skills-rij */
     .skills-row {
@@ -923,7 +924,7 @@
       border-color: rgba(48,50,61,0.15);
     }
 
-    /* Contact subtitel *
+    /* Contact subtitel */
     .cta-link {
       text-decoration: none;
       border-bottom: 1px solid;
@@ -938,7 +939,7 @@
       border-color: var(--yellow);
     }
 
-    /* Showreel embed *
+    /* Showreel embed */
     .showreel {
       position: relative;
       width: 100%;
@@ -991,9 +992,9 @@
     .actor .exp-period { color: var(--yellow); }
     .actor .exp-role { color: var(--white); }
     .actor .exp-org { color: rgba(242,243,239,0.5); }
-    .actor .exp-desc { color: rgba(242,243,239,0.4); }
+    .actor .exp-desc { color: rgba(242,243,239,0.65); }
 
-    /* Foto-grid *
+    /* Foto-grid */
     .photo-thumb {
       width: 100%;
       aspect-ratio: 3 / 4;
@@ -1056,7 +1057,7 @@
     .carousel-prev { left: 4px; }
     .carousel-next { right: 4px; }
 
-    /* Editorial photo grid (Kunst) *
+    /* Editorial photo grid (Kunst) */
 
     /* Lightbox */
     .lightbox {
@@ -1091,14 +1092,14 @@
     }
     .lightbox-close:hover { color: var(--white); }
 
-    /* Actor CTA + outline buttons *
+    /* Actor CTA + outline buttons */
     .actor-cta-h2 {
       font-size: clamp(48px, 5.5vw, 82px) !important;
       line-height: 0.92 !important;
       margin-bottom: 28px !important;
     }
-    /* Stats-blok in detail-secties (donkere box) *
-    /* CFO variant *
+    /* Stats-blok in detail-secties (donkere box) */
+    /* CFO variant */
 
     /* Casting specs grid */
     .casting-specs {
@@ -1184,9 +1185,9 @@
     .cfo .newsletter-input::placeholder { color: rgba(48,50,61,0.35); }
     .cfo .newsletter-input:focus { border-color: var(--blue); background: rgba(48,50,61,0.09); }
 
-    /* Upcoming shows *
+    /* Upcoming shows */
 
-    /* Opening shot *
+    /* Opening shot */
 
     /* Divider lijn in detail */
     .detail-divider {
@@ -1577,30 +1578,18 @@
             <div class="detail-divider"></div>
             <div class="photo-carousel">
               <button class="carousel-btn carousel-prev" onclick="cslide(-1)" aria-label="Vorige foto">&#8592;</button>
+              <!-- Gecureerd: 8 contrasterende looks (headshot, komisch, zakelijk,
+                   warm, rauw, kostuum, fysiek, full-body). Reserve-webversies
+                   (portret-*.jpg) blijven in fotos-carousel/ om te wisselen. -->
               <div class="carousel-track" id="carousel-track">
-                <img data-src="fotos-carousel/portret-17.jpg" alt="Bram Wikkerink — acteur portret" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-33.jpg" alt="Bram Wikkerink — portretfotografie" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-06.jpg" alt="Bram Wikkerink — acteur Amsterdam" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/hero-casting-1.jpg" alt="Bram Wikkerink — castingfoto" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-22.jpg" alt="Bram Wikkerink — portret" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-01.jpg" alt="Bram Wikkerink — acteur headshot" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-38.jpg" alt="Bram Wikkerink — portretfoto acteur" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/hero-casting-2.jpg" alt="Bram Wikkerink — castingfoto acteur" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-12.jpg" alt="Bram Wikkerink — performer" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-27.jpg" alt="Bram Wikkerink — acteur en zanger" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-37.jpg" alt="Bram Wikkerink — portret Amsterdam" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/hero-casting-3.jpg" alt="Bram Wikkerink — castingportret" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-02.jpg" alt="Bram Wikkerink — acteur portretshoot" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-08.jpg" alt="Bram Wikkerink — portretserie" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-15.jpg" alt="Bram Wikkerink — acteurfoto" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-18.jpg" alt="Bram Wikkerink — portret acteur Nederland" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/hero-casting-4.jpg" alt="Bram Wikkerink — casting headshot" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-20.jpg" alt="Bram Wikkerink — theatermakerfoto" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-28.jpg" alt="Bram Wikkerink — portretshoot" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-31.jpg" alt="Bram Wikkerink — acteur zwart-wit portret" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-32.jpg" alt="Bram Wikkerink — spelersfoto" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-34.jpg" alt="Bram Wikkerink — portret theatermaker" class="photo-thumb carousel-img" loading="lazy" decoding="async">
-                <img data-src="fotos-carousel/portret-41.jpg" alt="Bram Wikkerink — acteur fotoshoot" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/portret-18.jpg" alt="Bram Wikkerink — acteur headshot close-up" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/hero-casting-1.jpg" alt="Bram Wikkerink — castingfoto, komische look" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/hero-casting-3.jpg" alt="Bram Wikkerink — castingfoto, zakelijke look" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/portret-20.jpg" alt="Bram Wikkerink — acteur portret, lachend" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/portret-37.jpg" alt="Bram Wikkerink — acteur portret, rauwe look in leren jas" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/hero-casting-2.jpg" alt="Bram Wikkerink — castingfoto, kostuum met gilet" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/portret-08.jpg" alt="Bram Wikkerink — fysiek acteur, beweging in zwart-wit" class="photo-thumb carousel-img" loading="lazy" decoding="async">
+                <img data-src="fotos-carousel/portret-41.jpg" alt="Bram Wikkerink — acteur full-body portret" class="photo-thumb carousel-img" loading="lazy" decoding="async">
               </div>
               <button class="carousel-btn carousel-next" onclick="cslide(1)" aria-label="Volgende foto">&#8594;</button>
             </div>
@@ -1623,6 +1612,12 @@
             </p>
             <p class="detail-label" style="margin-top:40px;" data-i18n="actor.s.showreel.label">Over mij</p>
             <div class="casting-specs">
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.age">Speelleeftijd</span>
+              <div class="spec-tags"><span class="spec-tag">25 – 35</span></div>
+
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.base">Standplaats</span>
+              <div class="spec-tags"><span class="spec-tag">Amsterdam</span></div>
+
               <span class="spec-key" data-i18n="actor.s.showreel.spec.height">Lengte</span>
               <div class="spec-tags"><span class="spec-tag">185 cm</span></div>
 
@@ -1647,6 +1642,12 @@
                 <span class="spec-tag">Piano</span>
                 <span class="spec-tag" data-i18n="actor.s.showreel.spec.instr1">Gitaar</span>
               </div>
+
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.edu">Opleiding</span>
+              <div class="spec-tags"><span class="spec-tag" data-i18n="actor.s.showreel.spec.edu.val">Theaterschool De Trap · 2025</span></div>
+
+              <span class="spec-key" data-i18n="actor.s.showreel.spec.booking">Boekingen</span>
+              <div class="spec-tags"><span class="spec-tag" data-i18n="actor.s.showreel.spec.booking.val">Direct, zonder impresariaat</span></div>
             </div>
             <p class="detail-text" style="margin-top:20px;" data-i18n="actor.s.showreel.bio">
               Ik ben een fysieke, energieke acteur met een sterke podiumaanwezigheid en gevoel voor komische timing. Ik speel in uiteenlopende stijlen — van scherp komisch tot rauw emotioneel — en ik doe dat met precisie en spelplezier. Muzikaliteit zit in alles wat ik maak. Boven alles wil ik vertellen. Op het podium, voor de camera of jouw boodschap op maat. Ik geloof dat kunst mensen kan raken en bewegen. Ontvlammen. Daar moet het over gaan.
@@ -1762,11 +1763,12 @@
           <div class="detail-section" id="acteur-contact">
             <h2 class="detail-h2 actor-cta-h2"><span data-i18n="actor.s.contact.h2">Samen</span> <em data-i18n="actor.s.contact.h2em">spelen?</em></h2>
             <div class="detail-divider"></div>
+            <p class="detail-text" style="text-align:center;" data-i18n="actor.s.contact.direct">Boekingen lopen direct, zonder impresariaat — mail of plan een kennismaking.</p>
             <div class="contact-links">
-              <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" class="btn" data-ga="contact_instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_actor"><i class="fa-regular fa-envelope"></i> E-mail</a>
-              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" rel="noopener" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> <span data-i18n="actor.s.contact.session">Plan een sessie</span></a>
               <a href="Bram_Wikkerink_CV.pdf" download class="btn" data-ga="contact_cv_download"><i class="fa-solid fa-download"></i> <span data-i18n="actor.s.contact.cv">Download CV</span></a>
+              <a href="https://calendly.com/bram-wikkerink/30min?utm_source=wikkerink&utm_medium=site&utm_campaign=actor" target="_blank" rel="noopener" class="btn" data-ga="contact_calendly_actor"><i class="fa-regular fa-calendar"></i> <span data-i18n="actor.s.contact.session">Plan een kennismaking</span></a>
+              <a href="https://instagram.com/i_am_not_bram" target="_blank" rel="noopener" class="btn" data-ga="contact_instagram"><i class="fa-brands fa-instagram"></i> Instagram</a>
             </div>
           </div>
 
@@ -1915,6 +1917,7 @@
               <div class="exp-content">
                 <div class="exp-role">Fractional CFO & Deal Advisor</div>
                 <div class="exp-org">Zelfstandig</div>
+                <div class="exp-desc" data-i18n="cfo.s.ervaring.e0.desc">Series A-voorbereiding bij een healthtech-scale-up · Maandrapportage & ERP-migratie bij een groeibedrijf · Turnaround & cashflowsturing in de culturele sector · Portfoliorapportage voor een investeringsmaatschappij</div>
               </div>
             </div>
             <div class="exp-item">
@@ -1928,7 +1931,7 @@
             <div class="exp-item">
               <span class="exp-period" data-i18n="cfo.s.ervaring.e2.period">Advisory</span>
               <div class="exp-content">
-                <div class="exp-role">Senior Associate Business Restructuring · Trainee</div>
+                <div class="exp-role">Senior Associate Business Restructuring</div>
                 <div class="exp-org">PwC Deals</div>
                 <div class="exp-desc" data-i18n="cfo.s.ervaring.e2.desc">ODD, herstructurering, deal analytics, waarderingen</div>
               </div>
@@ -1944,10 +1947,10 @@
               <span class="skill-tag">NL</span>
               <span class="skill-tag">EN</span>
               <span class="skill-tag">DE</span>
-              <span class="skill-tag">Microsoft Office</span>
-              <span class="skill-tag">Power Suite</span>
+              <span class="skill-tag">Power BI</span>
               <span class="skill-tag">Alteryx</span>
               <span class="skill-tag">Tableau</span>
+              <span class="skill-tag">Exact</span>
             </div>
           </div>
 
@@ -1955,11 +1958,15 @@
           <div class="detail-section" id="cfo-contact">
             <h2 class="detail-h2 cfo-cta-h2"><span data-i18n="cfo.s.contact.h2">Laten we</span> <em data-i18n="cfo.s.contact.h2em">kennismaken.</em></h2>
             <div class="detail-divider"></div>
+            <p class="detail-text" style="text-align:center;" data-i18n="cfo.s.contact.sub">30 minuten, vrijblijvend — online of in Amsterdam.</p>
             <div class="contact-links cfo-contact-links">
+              <a href="https://calendly.com/bram-wikkerink/30min?utm_source=wikkerink&utm_medium=site&utm_campaign=cfo" target="_blank" rel="noopener" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> <span data-i18n="cfo.s.contact.appt">Plan een kennismaking</span></a>
               <a href="https://www.linkedin.com/in/bram-wikkerink-28993566/" target="_blank" rel="noopener" class="btn" data-ga="contact_linkedin"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-              <a href="https://calendly.com/bram-wikkerink/30min" target="_blank" rel="noopener" class="btn" data-ga="contact_calendly_cfo"><i class="fa-regular fa-calendar"></i> <span data-i18n="cfo.s.contact.appt">Plan een afspraak</span></a>
               <a href="mailto:bram@wikkerink.me" class="btn" data-ga="contact_email_cfo"><i class="fa-regular fa-envelope"></i> E-mail</a>
             </div>
+            <p class="detail-text" style="text-align:center; margin-top:24px; margin-bottom:0; font-size:13px;">
+              <a href="fractional-cfo-amsterdam.html" class="cta-link" data-i18n="cfo.s.contact.landing">Meer over mijn werk als Fractional CFO in Amsterdam →</a>
+            </p>
           </div>
 
 
@@ -2530,12 +2537,15 @@
         'actor.s.showreel.label2': 'Showreel',
         'actor.s.showreel.play': 'Showreel afspelen',
         'actor.s.showreel.watch': 'Bekijk op YouTube',
+        'actor.s.showreel.spec.age': 'Speelleeftijd', 'actor.s.showreel.spec.base': 'Standplaats',
         'actor.s.showreel.spec.height': 'Lengte', 'actor.s.showreel.spec.voice': 'Stem',
         'actor.s.showreel.spec.hair': 'Haar', 'actor.s.showreel.spec.hair.val': 'Donkerblond',
         'actor.s.showreel.spec.eyes': 'Ogen', 'actor.s.showreel.spec.eyes.val': 'Blauw',
         'actor.s.showreel.spec.lang': 'Talen',
         'actor.s.showreel.spec.lang0': 'Nederlands', 'actor.s.showreel.spec.lang1': 'Engels', 'actor.s.showreel.spec.lang2': 'Duits',
         'actor.s.showreel.spec.instr': 'Instrumenten', 'actor.s.showreel.spec.instr1': 'Gitaar',
+        'actor.s.showreel.spec.edu': 'Opleiding', 'actor.s.showreel.spec.edu.val': 'Theaterschool De Trap · 2025',
+        'actor.s.showreel.spec.booking': 'Boekingen', 'actor.s.showreel.spec.booking.val': 'Direct, zonder impresariaat',
         'actor.s.showreel.bio': 'Ik ben een fysieke, energieke acteur met een sterke podiumaanwezigheid en gevoel voor komische timing. Ik speel in uiteenlopende stijlen — van scherp komisch tot rauw emotioneel — en ik doe dat met precisie en spelplezier. Muzikaliteit zit in alles wat ik maak. Boven alles wil ik vertellen. Op het podium, voor de camera of jouw boodschap op maat. Ik geloof dat kunst mensen kan raken en bewegen. Ontvlammen. Daar moet het over gaan.',
         /* Actor detail — op maat */
         'actor.s.opmaat.h2em': 'Op maat.',
@@ -2546,7 +2556,8 @@
         'actor.s.rep.h2em': 'Repertoire.',
         /* Actor detail — contact */
         'actor.s.contact.h2': 'Samen', 'actor.s.contact.h2em': 'spelen?',
-        'actor.s.contact.session': 'Plan een sessie', 'actor.s.contact.cv': 'Download CV',
+        'actor.s.contact.direct': 'Boekingen lopen direct, zonder impresariaat — mail of plan een kennismaking.',
+        'actor.s.contact.session': 'Plan een kennismaking', 'actor.s.contact.cv': 'Download CV',
         /* Actor detail — nieuwsbrief */
         'actor.s.nl.label': 'Nieuwsbrief',
         'actor.s.nl.h2': 'Blijf op de', 'actor.s.nl.h2em': 'hoogte.',
@@ -2589,6 +2600,7 @@
         'cfo.s.ervaring.label': 'Achtergrond',
         'cfo.s.ervaring.h2': 'Brede', 'cfo.s.ervaring.h2em': 'dealervaring',
         'cfo.s.ervaring.e0.period': 'Heden',
+        'cfo.s.ervaring.e0.desc': 'Series A-voorbereiding bij een healthtech-scale-up · Maandrapportage & ERP-migratie bij een groeibedrijf · Turnaround & cashflowsturing in de culturele sector · Portfoliorapportage voor een investeringsmaatschappij',
         'cfo.s.ervaring.e1.period': 'Venture Capital',
         'cfo.s.ervaring.e1.desc': 'Impact-startups tot €1M · Due diligence · Coaching van ondernemers',
         'cfo.s.ervaring.e2.period': 'Advisory',
@@ -2596,7 +2608,9 @@
         'cfo.s.ervaring.e3.period': 'Opleiding',
         /* CFO detail — contact */
         'cfo.s.contact.h2': 'Laten we', 'cfo.s.contact.h2em': 'kennismaken.',
-        'cfo.s.contact.appt': 'Plan een afspraak',
+        'cfo.s.contact.sub': '30 minuten, vrijblijvend — online of in Amsterdam.',
+        'cfo.s.contact.appt': 'Plan een kennismaking',
+        'cfo.s.contact.landing': 'Meer over mijn werk als Fractional CFO in Amsterdam →',
         /* Gedeelde UI */
         'ui.back': '← Terug',
         'ui.swipe': 'swipe',
@@ -2627,12 +2641,15 @@
         'actor.s.showreel.label2': 'Showreel',
         'actor.s.showreel.play': 'Play showreel',
         'actor.s.showreel.watch': 'Watch on YouTube',
+        'actor.s.showreel.spec.age': 'Playing age', 'actor.s.showreel.spec.base': 'Based in',
         'actor.s.showreel.spec.height': 'Height', 'actor.s.showreel.spec.voice': 'Voice',
         'actor.s.showreel.spec.hair': 'Hair', 'actor.s.showreel.spec.hair.val': 'Dark blond',
         'actor.s.showreel.spec.eyes': 'Eyes', 'actor.s.showreel.spec.eyes.val': 'Blue',
         'actor.s.showreel.spec.lang': 'Languages',
         'actor.s.showreel.spec.lang0': 'Dutch', 'actor.s.showreel.spec.lang1': 'English', 'actor.s.showreel.spec.lang2': 'German',
         'actor.s.showreel.spec.instr': 'Instruments', 'actor.s.showreel.spec.instr1': 'Guitar',
+        'actor.s.showreel.spec.edu': 'Training', 'actor.s.showreel.spec.edu.val': 'Theaterschool De Trap · 2025',
+        'actor.s.showreel.spec.booking': 'Bookings', 'actor.s.showreel.spec.booking.val': 'Direct, no agent',
         'actor.s.showreel.bio': 'I\'m a physical, energetic actor with a strong stage presence and a natural sense of comic timing. I work across a wide range of styles — from sharp comedy to raw emotion — with precision and genuine joy. Musicality runs through everything I make. More than anything, I want to tell stories. On stage, on screen, or tailored to your message. I believe art can touch and move people. Ignite them. That\'s what it has to be about.',
         /* Actor detail — op maat */
         'actor.s.opmaat.h2em': 'Custom shows.',
@@ -2643,7 +2660,8 @@
         'actor.s.rep.h2em': 'Repertoire.',
         /* Actor detail — contact */
         'actor.s.contact.h2': 'Work', 'actor.s.contact.h2em': 'together?',
-        'actor.s.contact.session': 'Book a session', 'actor.s.contact.cv': 'Download CV',
+        'actor.s.contact.direct': 'Bookings are handled directly, no agent — email me or book an intro call.',
+        'actor.s.contact.session': 'Book an intro call', 'actor.s.contact.cv': 'Download CV',
         /* Actor detail — nieuwsbrief */
         'actor.s.nl.label': 'Newsletter',
         'actor.s.nl.h2': 'Stay in', 'actor.s.nl.h2em': 'the loop.',
@@ -2686,6 +2704,7 @@
         'cfo.s.ervaring.label': 'Background',
         'cfo.s.ervaring.h2': 'Extensive', 'cfo.s.ervaring.h2em': 'deal experience',
         'cfo.s.ervaring.e0.period': 'Present',
+        'cfo.s.ervaring.e0.desc': 'Series A preparation at a healthtech scale-up · Monthly reporting & ERP migration at a growth company · Turnaround & cash-flow management in the cultural sector · Portfolio reporting for an investment firm',
         'cfo.s.ervaring.e1.period': 'Venture Capital',
         'cfo.s.ervaring.e1.desc': 'Impact startups up to €1M · Due diligence · Entrepreneur coaching',
         'cfo.s.ervaring.e2.period': 'Advisory',
@@ -2693,7 +2712,9 @@
         'cfo.s.ervaring.e3.period': 'Education',
         /* CFO detail — contact */
         'cfo.s.contact.h2': 'Let\'s', 'cfo.s.contact.h2em': 'connect.',
-        'cfo.s.contact.appt': 'Book an appointment',
+        'cfo.s.contact.sub': '30 minutes, no strings attached — online or in Amsterdam.',
+        'cfo.s.contact.appt': 'Book an intro call',
+        'cfo.s.contact.landing': 'More about my work as a Fractional CFO in Amsterdam →',
         /* Gedeelde UI */
         'ui.back': '← Back',
         'ui.swipe': 'swipe',
